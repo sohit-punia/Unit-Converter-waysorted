@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Waysorted — Unit Conversion (Bleed Next To Add)</title>
+<title>Waysorted — Unit Conversion (Final)</title>
 <style>
 :root{
   --bg:#181818;
@@ -52,7 +52,7 @@ select, input[type="number"], input[type="text"] {
 .small { min-width:60px; }
 
 /* Grid with two rows: left column = length/width; right column is presets.
-   We will position bleed absolutely so it sits next to Add Bleed and aligned with rows. */
+   Bleed is absolutely positioned inside .left so it sits next to Add Bleed. */
 .sizes-block {
   display:grid;
   grid-template-columns: 1fr;
@@ -79,14 +79,12 @@ select, input[type="number"], input[type="text"] {
 
 .px-inline { margin-left:6px; color:var(--muted); font-size:var(--fs-xs); min-width:20px; text-align:left; }
 
-/* Bleed group: absolutely positioned inside .left so it's immediately to the right of Add Bleed.
-   The top value aligns the top pair (Top/Bottom) with the Length row.
-   The left value positions the group just right of the Add Bleed checkbox.
-   You can tweak left/top by a few px if needed. */
+/* Bleed group: absolutely positioned inside .left so it sits immediately to the right of Add Bleed.
+   top/left may be tweaked if you want a small nudge. */
 .bleed-block {
   position:absolute;
-  left: 260px;   /* <<— adjust if you need to nudge horizontally */
-  top: 70px;     /* <<— adjust if you need to nudge vertically */
+  left: 260px;   /* adjust if you want to nudge horizontally */
+  top: 72px;     /* adjust if you want to nudge vertically */
   display:flex;
   flex-direction:column;
   gap:12px;
@@ -94,15 +92,14 @@ select, input[type="number"], input[type="text"] {
   pointer-events:auto;
 }
 
-/* Small bleed rows */
 .bleed-row { display:flex; gap:10px; align-items:center; }
 .bleed-cell { display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-width:64px; }
 .bleed-label { color:var(--muted); font-size:11px; }
 .bleed-input { width:54px; height:28px; background:#2a2a2a; border-radius:8px; border:1px solid rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; }
 .bleed-input input { background:transparent; border:none; outline:none; color:var(--white); width:100%; padding:0 6px; font-size:13px; text-align:center; }
 
-/* Buttons */
-.actions { display:flex; gap:10px; margin-top:8px; align-items:center; }
+/* Buttons: moved down slightly so they don't cut bleed boxes */
+.actions { display:flex; gap:10px; margin-top:18px; align-items:center; } /* <-- moved down (18px) */
 .btn { background:var(--accent); color:var(--white); padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-size:13px; }
 .btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--white); }
 
@@ -135,7 +132,7 @@ select, input[type="number"], input[type="text"] {
 </head>
 <body>
   <div class="wrap">
-    <div class="panel" role="region" aria-label="Waysorted Unit Conversion - bleed next to add">
+    <div class="panel" role="region" aria-label="Waysorted Unit Conversion - final">
       <!-- LEFT -->
       <div class="left">
         <div class="header">
@@ -175,8 +172,9 @@ select, input[type="number"], input[type="text"] {
             <div class="size-label">Length</div>
             <div class="pair">
               <div class="short"><input id="lengthInput" type="number" placeholder="0"></div>
-              <div class="short"><input id="lengthInput2" type="number" placeholder=""></div>
               <button id="swapLenBtn" class="swap-mini" title="swap">⇄</button>
+              <div class="short"><input id="lengthInput2" type="number" placeholder=""></div>
+              
             </div>
             <div class="px-inline">px</div>
           </div>
@@ -186,8 +184,9 @@ select, input[type="number"], input[type="text"] {
             <div class="size-label">Width</div>
             <div class="pair">
               <div class="short"><input id="widthInput" type="number" placeholder="0"></div>
-              <div class="short"><input id="widthInput2" type="number" placeholder=""></div>
               <button id="swapWidBtn" class="swap-mini" title="swap">⇄</button>
+              <div class="short"><input id="widthInput2" type="number" placeholder=""></div>
+              
             </div>
             <div class="px-inline">px</div>
           </div>
@@ -217,7 +216,7 @@ select, input[type="number"], input[type="text"] {
           </div>
         </div>
 
-        <!-- Buttons -->
+        <!-- Buttons (moved down a little) -->
         <div class="actions">
           <button id="exportBtn" class="btn">Export as Frame</button>
           <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
