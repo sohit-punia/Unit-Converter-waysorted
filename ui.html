@@ -92,10 +92,33 @@ select, input[type="number"], input[type="text"] {
   pointer-events:auto;
 }
 
-.bleed-row { display:flex; gap:10px; align-items:center; }
-.bleed-cell { display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-width:64px; }
-.bleed-label { color:var(--muted); font-size:11px; }
-.bleed-input { width:54px; height:28px; background:#2a2a2a; border-radius:8px; border:1px solid rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; }
+.bleed-row { 
+  display:flex; 
+  gap:14px; /* ⬅ increased spacing between boxes */
+  align-items:center; 
+}
+.bleed-cell { 
+  display:flex; 
+  flex-direction:row;   /* ⬅ label now on the right */
+  align-items:center; 
+  gap:6px;              /* ⬅ small space between box and label */
+}
+.bleed-label { 
+  color:var(--muted); 
+  font-size:12px;      /* ⬅ slightly larger font */
+  white-space:nowrap;
+}
+.bleed-input { 
+  width:68px;          /* ⬅ was 54px */
+  height:30px;         /* ⬅ slightly taller too */
+  background:#2a2a2a; 
+  border-radius:8px; 
+  border:1px solid rgba(255,255,255,0.03); 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+}
+
 .bleed-input input { background:transparent; border:none; outline:none; color:var(--white); width:100%; padding:0 6px; font-size:13px; text-align:center; }
 
 /* Buttons: moved down slightly so they don't cut bleed boxes */
