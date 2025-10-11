@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Waysorted — Unit Conversion (Final)</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Waysorted — Unit Conversion (Adjusted)</title>
 <style>
   :root{
     --bg:#181818;
@@ -24,7 +24,7 @@
   .wrap{padding:10px; box-sizing:border-box;}
   .panel {
     width:100%;
-    height:260px; /* fixed height to match screenshot */
+    height:260px;
     border-radius:var(--radius);
     background: linear-gradient(180deg,var(--panel-2), #222);
     border:1px solid var(--card-border);
@@ -44,35 +44,41 @@
   .logo { width:34px;height:24px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px; }
   .plugin-title { font-weight:600; font-size:13px; color:var(--white); }
 
-  .close-container { margin-left:auto; display:flex; gap:8px; align-items:center; }
-  .close-btn { background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);padding:6px 10px;border-radius:8px;font-size:12px;cursor:pointer; }
-
   .row { display:flex; gap:10px; align-items:center; }
+
   label { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:var(--fs-xs); white-space:nowrap; }
   select, input[type="number"], input[type="text"] {
     background:#2b2b2b; border:1px solid rgba(255,255,255,0.03); color:var(--white); padding:6px 8px; border-radius:8px; font-size:var(--fs-sm); outline:none;
   }
   .small { min-width:60px; }
 
-  /* LENGTH / WIDTH boxes reduced width to match screenshot */
-  .sizes { display:flex; gap:10px; align-items:center; width:100%; }
-  .size-box { background:#2a2a2a; border-radius:8px; padding:8px 10px; min-width:92px; color:var(--white); font-size:var(--fs-sm); } /* tightened */
-  .size-box input { background:transparent; border:none; outline:none; color:var(--white); width:100%; font-size:var(--fs-sm); }
+  /* Compact length/width pairs (smaller) */
+  .sizes { display:flex; align-items:center; gap:10px; width:100%; }
+  .size-label { color:var(--muted); font-size:var(--fs-xs); min-width:44px; }
 
-  .swap-btn { background:transparent;border:1px solid rgba(255,255,255,0.04); color:var(--muted); padding:6px 8px; border-radius:8px; cursor:pointer; }
+  .pair { display:flex; align-items:center; gap:6px; }
+  .short { width:48px; height:26px; background:#2a2a2a; border-radius:8px; border:1px solid rgba(255,255,255,0.03); display:flex; align-items:center; }
+  .short input{ background:transparent; border:none; outline:none; color:var(--white); width:100%; padding:0 6px; font-size:13px; }
 
-  /* bleed inputs slightly tighter */
-  .bleed-row { display:flex; gap:8px; align-items:center; color:var(--muted-2); }
-  .bleed-row input { width:60px; background:#2a2a2a; border-radius:6px; border:1px solid rgba(255,255,255,0.03); padding:6px 8px; color:var(--white); }
+  .swap-mini{ width:28px; height:26px; display:flex; align-items:center; justify-content:center; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); border-radius:8px; cursor:pointer; }
 
-  .actions { display:flex; gap:10px; margin-top:6px; }
-  .btn { background:var(--accent); color:white; padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-size:13px; }
+  .px-tag{ min-width:20px; text-align:center; color:var(--muted); font-size:var(--fs-xs); }
+
+  /* Bleed compact */
+  .bleed { display:flex; gap:8px; align-items:center; }
+  .bleed .bleed-box { width:48px; height:26px; background:#2a2a2a; border-radius:8px; border:1px solid rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; padding:3px; }
+  .bleed .bleed-box input{background:transparent;border:none;outline:none;color:var(--white);width:100%;padding:0 6px;font-size:13px;}
+
+  /* Buttons */
+  .actions { display:flex; gap:10px; margin-top:8px; align-items:center; }
+  .btn { background:var(--accent); color:var(--white); padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-size:13px; }
   .btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--white); }
 
-  /* RIGHT area */
+  /* RIGHT area (presets) - same layout */
   .right { flex:1; display:flex; flex-direction:column; gap:8px; min-width:380px; }
 
-  .presets-header { display:flex; justify-content:space-between; align-items:center; }
+  .presets-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .title-small { font-weight:600; color:var(--white); }
   .tabs { display:flex; gap:10px; align-items:center; }
   .tab { padding:6px 10px; border-radius:10px; background:transparent; color:var(--muted); border:1px solid transparent; font-size:var(--fs-xs); cursor:pointer; }
   .tab.active { background: rgba(255,255,255,0.03); color:var(--white); border-color:rgba(255,255,255,0.04); }
@@ -89,9 +95,6 @@
   .preset-card .heart.fav { background:var(--accent); color:white; }
   .preset-labels { display:flex; gap:22px; margin-top:8px; align-items:center; color:var(--muted-2); font-size:12px; }
 
-  .preset-footer { display:flex; justify-content:flex-end; align-items:center; margin-top:6px; }
-  .refresh-btn { background:transparent;border:1px solid rgba(255,255,255,0.06); padding:6px 10px;border-radius:8px;color:var(--white); cursor:pointer; }
-
   .chev-wrap { position:absolute; left:50%; transform:translateX(-50%); bottom:-10px; width:28px; height:18px; display:flex; align-items:center; justify-content:center; }
 
   /* hide scrollbars */
@@ -107,17 +110,16 @@
         <div class="header">
           <div class="logo">W</div>
           <div class="plugin-title">Unit Conversion</div>
-          <div class="close-container">
-            <button id="closeBtn" class="close-btn">Close</button>
-          </div>
+          <!-- CLOSE BUTTON REMOVED -->
         </div>
 
+        <!-- Unit / DPI / Add Bleed -->
         <div class="row" style="margin-top:4px;">
           <label>Unit
             <select id="unitSelect" class="small">
               <option value="MM">MM</option>
               <option value="CM">CM</option>
-              <option value="CM">Meter</option>
+              <option value="M">Meter</option>
               <option value="IN">Inch</option>
               <option value="FT">Feet</option>
             </select>
@@ -136,35 +138,46 @@
           </label>
         </div>
 
-        <div class="row" style="margin-top:6px;">
-          <div style="flex:1;">
-            <div style="color:var(--muted);font-size:var(--fs-xs);margin-bottom:6px;">Length</div>
-            <div class="size-box"><input id="lengthInput" type="number" placeholder="0"></div>
+        <!-- Length row: two short boxes + tiny swap + px -->
+        <div class="sizes" style="margin-top:6px;">
+          <div class="size-label">Length</div>
+
+          <div class="pair">
+            <div class="short"><input id="lengthInput" type="number" placeholder="0"></div>
+            <button id="swapLenBtn" class="swap-mini" title="swap">⇄</button>
+            <div class="short"><input id="lengthInput2" type="number" placeholder=""></div>
+            
           </div>
 
-          <div style="display:flex;align-items:center;justify-content:center;">
-            <button id="swapBtn" class="swap-btn" title="swap">⇄</button>
-          </div>
-
-          <div style="flex:1;">
-            <div style="color:var(--muted);font-size:var(--fs-xs);margin-bottom:6px;">Width</div>
-            <div class="size-box" style="display:flex;align-items:center;gap:8px;">
-              <input id="widthInput" type="number" placeholder="0" style="flex:1;">
-              <div style="color:var(--muted);font-size:var(--fs-xs);min-width:26px;text-align:center;">px</div>
-            </div>
-          </div>
+          <div style="margin-left:auto;" class="px-tag">px</div>
         </div>
 
+        <!-- Width row -->
+        <div class="sizes">
+          <div class="size-label">Width</div>
+
+          <div class="pair">
+            <div class="short"><input id="widthInput" type="number" placeholder="0"></div>
+            <button id="swapWidBtn" class="swap-mini" title="swap">⇄</button>
+            <div class="short"><input id="widthInput2" type="number" placeholder=""></div>
+            
+          </div>
+
+          <div style="margin-left:auto;" class="px-tag">px</div>
+        </div>
+
+        <!-- Bleed -->
         <div class="row" style="margin-top:6px;">
-          <div class="bleed-row">
+          <div class="bleed">
             <div style="color:var(--muted);font-size:var(--fs-xs);margin-right:6px;">Bleed</div>
-            <input id="bleedTop" type="number" placeholder="Top">
-            <input id="bleedBottom" type="number" placeholder="Bottom">
-            <input id="bleedLeft" type="number" placeholder="Left">
-            <input id="bleedRight" type="number" placeholder="Right">
+            <div class="bleed-box"><input id="bleedTop" type="number" placeholder="Top"></div>
+            <div class="bleed-box"><input id="bleedBottom" type="number" placeholder="Bottom"></div>
+            <div class="bleed-box"><input id="bleedLeft" type="number" placeholder="Left"></div>
+            <div class="bleed-box"><input id="bleedRight" type="number" placeholder="Right"></div>
           </div>
         </div>
 
+        <!-- Buttons -->
         <div class="actions">
           <button id="exportBtn" class="btn">Export as Frame</button>
           <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
@@ -176,7 +189,7 @@
       <div class="right">
         <div class="presets-header">
           <div style="display:flex;flex-direction:column;">
-            <!-- <div style="font-weight:600;color:var(--white);">Your Presets</div> -->
+            <div style="font-weight:600;color:var(--white);">Your Presets</div>
             <div class="tabs" style="margin-top:6px;">
               <button id="tabYour" class="tab active">Your Presets</button>
               <button id="tabAll" class="tab">All Presets</button>
@@ -194,7 +207,7 @@
         <div class="preset-area">
           <div class="preset-row" id="presetRow" role="list" aria-label="Presets row"></div>
           <div class="preset-labels" id="presetLabels"></div>
-          <div class="preset-footer"><button id="refreshBtn" class="refresh-btn">Refresh</button></div>
+          <div class="preset-footer"></div>
         </div>
       </div>
 
@@ -205,11 +218,10 @@
   </div>
 
 <script>
-  
-/* CONFIG: set your backendBaseUrl if you have real backend, otherwise leave blank for demo */
+/* CONFIG: backendBaseUrl left empty for demo */
 const backendBaseUrl = '';
 
-/* plugin comms */
+/* Plugin comms */
 function postToPlugin(msg){ parent.postMessage({ pluginMessage: msg }, '*'); }
 window.onmessage = (e) => {
   const msg = e.data.pluginMessage;
@@ -234,20 +246,21 @@ window.onmessage = (e) => {
 const unitSelect = document.getElementById('unitSelect');
 const dpiSelect = document.getElementById('dpiSelect');
 const lengthInput = document.getElementById('lengthInput');
+const lengthInput2 = document.getElementById('lengthInput2');
 const widthInput = document.getElementById('widthInput');
+const widthInput2 = document.getElementById('widthInput2');
 const exportBtn = document.getElementById('exportBtn');
 const savePresetBtn = document.getElementById('savePresetBtn');
-const swapBtn = document.getElementById('swapBtn');
-const closeBtn = document.getElementById('closeBtn');
+const swapLenBtn = document.getElementById('swapLenBtn');
+const swapWidBtn = document.getElementById('swapWidBtn');
 const presetRow = document.getElementById('presetRow');
 const presetLabels = document.getElementById('presetLabels');
-const refreshBtn = document.getElementById('refreshBtn');
 const tabYour = document.getElementById('tabYour');
 const tabAll = document.getElementById('tabAll');
 const chipAll = document.getElementById('chipAll');
 const chipFav = document.getElementById('chipFav');
 
-/* in-memory demo presets */
+/* in-memory presets (demo) */
 let presets = [
   {_id:'p1', title:'Banner', width:800, height:300, unit:'MM', dpi:72, favorite:true},
   {_id:'p2', title:'V-Card', width:350, height:200, unit:'MM', dpi:72, favorite:false},
@@ -259,6 +272,7 @@ let presets = [
 let activeTab = 'your';
 let activeChip = 'all';
 
+/* Render presets */
 function renderPresets(){
   presetRow.innerHTML = '';
   presetLabels.innerHTML = '';
@@ -288,32 +302,36 @@ function renderPresets(){
   }
 }
 
+/* apply preset to form */
 function applyPreset(p){
   lengthInput.value = p.height || '';
+  lengthInput2.value = '';
   widthInput.value = p.width || '';
+  widthInput2.value = '';
   unitSelect.value = p.unit || 'MM';
   dpiSelect.value = p.dpi ? String(p.dpi) : '72';
 }
 
+/* events */
 exportBtn.addEventListener('click', ()=>{
   const dpi = Number(dpiSelect.value) || 72;
   postToPlugin({ type:'export-frame', dpi, fileName: 'export.png' });
 });
 
 savePresetBtn.addEventListener('click', ()=>{
-  const title = prompt('Preset name');
+  const title = prompt('Preset name (demo)');
   if(!title) return;
   const newP = {_id:'p'+Date.now(), title, width:Number(widthInput.value)||0, height:Number(lengthInput.value)||0, unit:unitSelect.value||'MM', dpi:Number(dpiSelect.value)||72, favorite:false};
   presets.unshift(newP);
   renderPresets();
 });
 
-swapBtn.addEventListener('click', ()=>{
-  const t = lengthInput.value; lengthInput.value = widthInput.value; widthInput.value = t;
+swapLenBtn.addEventListener('click', ()=>{
+  const t = lengthInput.value; lengthInput.value = lengthInput2.value; lengthInput2.value = t;
 });
-
-refreshBtn.addEventListener('click', ()=> renderPresets());
-closeBtn.addEventListener('click', ()=> postToPlugin({ type:'close' }));
+swapWidBtn.addEventListener('click', ()=>{
+  const t = widthInput.value; widthInput.value = widthInput2.value; widthInput2.value = t;
+});
 
 tabYour.addEventListener('click', ()=>{ activeTab='your'; tabYour.classList.add('active'); tabAll.classList.remove('active'); renderPresets(); });
 tabAll.addEventListener('click', ()=>{ activeTab='all'; tabAll.classList.add('active'); tabYour.classList.remove('active'); renderPresets(); });
@@ -321,7 +339,8 @@ tabAll.addEventListener('click', ()=>{ activeTab='all'; tabAll.classList.add('ac
 chipAll.addEventListener('click', ()=>{ activeChip='all'; chipAll.classList.add('active'); chipFav.classList.remove('active'); renderPresets(); });
 chipFav.addEventListener('click', ()=>{ activeChip='fav'; chipFav.classList.add('active'); chipAll.classList.remove('active'); renderPresets(); });
 
+/* initial render */
 renderPresets();
-</script> 
+</script>
 </body>
 </html>

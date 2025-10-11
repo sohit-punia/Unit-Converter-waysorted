@@ -1,6 +1,6 @@
 {
   "name": "Waysorted - Unit Conversion",
-  "id": "waysorted-unit-conversion-compact-final",
+  "id": "waysorted-unit-conversion-submit",
   "api": "1.0.0",
   "main": "code.js",
   "ui": "ui.html",
