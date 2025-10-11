@@ -1,4 +1,4 @@
-// code.js - plugin main (compact final)
+// code.js - plugin main
 figma.showUI(__html__, { width: 1300, height: 300 });
 
 figma.ui.onmessage = async (msg) => {
@@ -12,10 +12,11 @@ figma.ui.onmessage = async (msg) => {
   if (msg.type === 'export-frame') {
     const sel = figma.currentPage.selection;
     if (!sel || sel.length === 0) {
-      figma.notify('Please select a frame (or node) to export.');
+      figma.notify('Please select a frame or node to export.');
       figma.ui.postMessage({ type: 'export-failed', error: 'No selection' });
       return;
     }
+
     const node = sel[0];
     try {
       const dpi = Number(msg.dpi) || 72;

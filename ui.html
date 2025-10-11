@@ -1,16 +1,16 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Waysorted — Compact Final</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Waysorted — Unit Conversion (Final)</title>
 <style>
   :root{
-    --bg:#1f1f1f;
-    --panel:#232323;
+    --bg:#181818;
+    --panel:#242424;
     --panel-2:#282828;
-    --muted:#9fa6ab;
-    --muted-2:#7d8387;
+    --muted:#9ea6ab;
+    --muted-2:#7c8387;
     --accent:#2b66ee;
     --white:#ffffff;
     --card-border: rgba(255,255,255,0.04);
@@ -24,7 +24,7 @@
   .wrap{padding:10px; box-sizing:border-box;}
   .panel {
     width:100%;
-    height: 260px; /* fixed height to avoid vertical scroll inside plugin */
+    height:260px; /* fixed height to match screenshot */
     border-radius:var(--radius);
     background: linear-gradient(180deg,var(--panel-2), #222);
     border:1px solid var(--card-border);
@@ -33,66 +33,44 @@
     display:flex;
     gap:18px;
     align-items:flex-start;
+    position:relative;
     overflow:hidden;
   }
 
-  /* LEFT column (form) */
-  .left {
-    flex: 0 0 58%;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
+  /* LEFT area */
+  .left { flex:0 0 58%; display:flex; flex-direction:column; gap:10px; }
 
-  .header {
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
-  .logo {
-    width:34px;height:24px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;
-  }
+  .header { display:flex; align-items:center; gap:12px; }
+  .logo { width:34px;height:24px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px; }
   .plugin-title { font-weight:600; font-size:13px; color:var(--white); }
 
   .close-container { margin-left:auto; display:flex; gap:8px; align-items:center; }
-  .close-btn {
-    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);padding:6px 10px;border-radius:8px;font-size:12px;cursor:pointer;
-  }
+  .close-btn { background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);padding:6px 10px;border-radius:8px;font-size:12px;cursor:pointer; }
 
   .row { display:flex; gap:10px; align-items:center; }
   label { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:var(--fs-xs); white-space:nowrap; }
   select, input[type="number"], input[type="text"] {
-    background: #2b2b2b;
-    border: 1px solid rgba(255,255,255,0.03);
-    color:var(--white);
-    padding:6px 8px;
-    border-radius:8px;
-    font-size:var(--fs-sm);
-    outline:none;
+    background:#2b2b2b; border:1px solid rgba(255,255,255,0.03); color:var(--white); padding:6px 8px; border-radius:8px; font-size:var(--fs-sm); outline:none;
   }
-  .small { min-width:56px; }
+  .small { min-width:60px; }
 
+  /* LENGTH / WIDTH boxes reduced width to match screenshot */
   .sizes { display:flex; gap:10px; align-items:center; width:100%; }
-  .size-box { background:#2a2a2a; border-radius:8px; padding:8px 10px; min-width:130px; color:var(--white); font-size:var(--fs-sm); }
+  .size-box { background:#2a2a2a; border-radius:8px; padding:8px 10px; min-width:92px; color:var(--white); font-size:var(--fs-sm); } /* tightened */
   .size-box input { background:transparent; border:none; outline:none; color:var(--white); width:100%; font-size:var(--fs-sm); }
 
   .swap-btn { background:transparent;border:1px solid rgba(255,255,255,0.04); color:var(--muted); padding:6px 8px; border-radius:8px; cursor:pointer; }
 
+  /* bleed inputs slightly tighter */
   .bleed-row { display:flex; gap:8px; align-items:center; color:var(--muted-2); }
-  .bleed-row input { width:80px; background:#2a2a2a; border-radius:6px; border:1px solid rgba(255,255,255,0.03); padding:6px 8px; color:var(--white); }
+  .bleed-row input { width:60px; background:#2a2a2a; border-radius:6px; border:1px solid rgba(255,255,255,0.03); padding:6px 8px; color:var(--white); }
 
   .actions { display:flex; gap:10px; margin-top:6px; }
   .btn { background:var(--accent); color:white; padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-size:13px; }
   .btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--white); }
 
-  /* RIGHT column (presets) */
-  .right {
-    flex: 1;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    min-width:380px;
-  }
+  /* RIGHT area */
+  .right { flex:1; display:flex; flex-direction:column; gap:8px; min-width:380px; }
 
   .presets-header { display:flex; justify-content:space-between; align-items:center; }
   .tabs { display:flex; gap:10px; align-items:center; }
@@ -104,33 +82,26 @@
   .chip.active { background:var(--accent); color:white; }
 
   .preset-area { margin-top:8px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); padding:12px; background: rgba(255,255,255,0.01); box-sizing:border-box; height:140px; }
-  .preset-row { display:flex; gap:12px; align-items:flex-start; height:72px; }
+  .preset-row { display:flex; gap:12px; align-items:flex-start; height:72px; overflow:hidden; }
 
-  .preset-card {
-    width:60px; height:60px; background:#2a2a2a; border-radius:10px; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer;
-    border: 1px solid rgba(255,255,255,0.02);
-  }
-  .preset-card .heart {
-    position:absolute; top:8px; left:8px; width:18px; height:18px; border-radius:6px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); color:var(--muted); font-size:11px;
-  }
+  .preset-card { width:60px; height:60px; background:#2a2a2a; border-radius:10px; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer; border:1px solid rgba(255,255,255,0.02); }
+  .preset-card .heart { position:absolute; top:8px; left:8px; width:18px; height:18px; border-radius:6px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); color:var(--muted); font-size:11px; }
   .preset-card .heart.fav { background:var(--accent); color:white; }
-
   .preset-labels { display:flex; gap:22px; margin-top:8px; align-items:center; color:var(--muted-2); font-size:12px; }
 
   .preset-footer { display:flex; justify-content:flex-end; align-items:center; margin-top:6px; }
   .refresh-btn { background:transparent;border:1px solid rgba(255,255,255,0.06); padding:6px 10px;border-radius:8px;color:var(--white); cursor:pointer; }
 
-  /* small centered chevron at bottom of panel like screenshot */
   .chev-wrap { position:absolute; left:50%; transform:translateX(-50%); bottom:-10px; width:28px; height:18px; display:flex; align-items:center; justify-content:center; }
 
-  /* remove inner scrollbars */
-  .preset-area::-webkit-scrollbar{display:none;}
+  /* hide scrollbars */
   .panel::-webkit-scrollbar{display:none;}
+  .preset-area::-webkit-scrollbar{display:none;}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="panel" role="region" aria-label="Waysorted Unit Conversion compact">
+    <div class="panel" role="region" aria-label="Waysorted Unit Conversion final">
       <!-- LEFT -->
       <div class="left">
         <div class="header">
@@ -146,8 +117,9 @@
             <select id="unitSelect" class="small">
               <option value="MM">MM</option>
               <option value="CM">CM</option>
-              <option value="IN">In</option>
-              <option value="FT">Ft</option>
+              <option value="CM">Meter</option>
+              <option value="IN">Inch</option>
+              <option value="FT">Feet</option>
             </select>
           </label>
 
@@ -160,31 +132,32 @@
           </label>
 
           <label style="margin-left:8px;">
-            <input id="addBleed" type="checkbox" /> <span style="margin-left:6px; color:var(--muted); font-size:var(--fs-xs);">Add Bleed</span>
+            <input id="addBleed" type="checkbox" /> <span style="margin-left:6px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
           </label>
         </div>
 
         <div class="row" style="margin-top:6px;">
           <div style="flex:1;">
-            <div style="color:var(--muted); font-size:var(--fs-xs); margin-bottom:6px;">Length</div>
+            <div style="color:var(--muted);font-size:var(--fs-xs);margin-bottom:6px;">Length</div>
             <div class="size-box"><input id="lengthInput" type="number" placeholder="0"></div>
           </div>
 
-          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="display:flex;align-items:center;justify-content:center;">
             <button id="swapBtn" class="swap-btn" title="swap">⇄</button>
           </div>
 
           <div style="flex:1;">
-            <div style="color:var(--muted); font-size:var(--fs-xs); margin-bottom:6px;">Width</div>
-            <div class="size-box"><input id="widthInput" type="number" placeholder="0"></div>
+            <div style="color:var(--muted);font-size:var(--fs-xs);margin-bottom:6px;">Width</div>
+            <div class="size-box" style="display:flex;align-items:center;gap:8px;">
+              <input id="widthInput" type="number" placeholder="0" style="flex:1;">
+              <div style="color:var(--muted);font-size:var(--fs-xs);min-width:26px;text-align:center;">px</div>
+            </div>
           </div>
-
-          <div style="width:48px; text-align:center; color:var(--muted); font-size:var(--fs-xs);">px</div>
         </div>
 
         <div class="row" style="margin-top:6px;">
           <div class="bleed-row">
-            <div style="color:var(--muted); font-size:var(--fs-xs); margin-right:6px;">Bleed</div>
+            <div style="color:var(--muted);font-size:var(--fs-xs);margin-right:6px;">Bleed</div>
             <input id="bleedTop" type="number" placeholder="Top">
             <input id="bleedBottom" type="number" placeholder="Bottom">
             <input id="bleedLeft" type="number" placeholder="Left">
@@ -202,15 +175,15 @@
       <!-- RIGHT -->
       <div class="right">
         <div class="presets-header">
-          <div style="display:flex; flex-direction:column;">
-            <div style="font-weight:600; color:var(--white);">Your Presets</div>
+          <div style="display:flex;flex-direction:column;">
+            <!-- <div style="font-weight:600;color:var(--white);">Your Presets</div> -->
             <div class="tabs" style="margin-top:6px;">
               <button id="tabYour" class="tab active">Your Presets</button>
               <button id="tabAll" class="tab">All Presets</button>
             </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
             <div class="chip-row">
               <div id="chipAll" class="chip active">All</div>
               <div id="chipFav" class="chip">Favorites</div>
@@ -219,53 +192,45 @@
         </div>
 
         <div class="preset-area">
-          <div class="preset-row" id="presetRow" role="list" aria-label="Presets row">
-            <!-- preset cards will be injected here -->
-          </div>
-
-          <div class="preset-labels" id="presetLabels">
-            <!-- labels shown under cards -->
-          </div>
-
-          <div class="preset-footer">
-            <button id="refreshBtn" class="refresh-btn">Refresh</button>
-          </div>
+          <div class="preset-row" id="presetRow" role="list" aria-label="Presets row"></div>
+          <div class="preset-labels" id="presetLabels"></div>
+          <div class="preset-footer"><button id="refreshBtn" class="refresh-btn">Refresh</button></div>
         </div>
       </div>
 
-      <!-- small chevron -->
       <div class="chev-wrap" aria-hidden="true">
-        <svg width="20" height="12" viewBox="0 0 24 24" fill="none" style="opacity:0.9" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="20" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
   </div>
 
 <script>
-/* ===== CONFIG ===== */
-const backendBaseUrl = ''; // <-- set to your backend if required; empty = in-memory demo
+  
+/* CONFIG: set your backendBaseUrl if you have real backend, otherwise leave blank for demo */
+const backendBaseUrl = '';
 
-/* ===== plugin comms ===== */
-function postToPlugin(msg) { parent.postMessage({ pluginMessage: msg }, '*'); }
+/* plugin comms */
+function postToPlugin(msg){ parent.postMessage({ pluginMessage: msg }, '*'); }
 window.onmessage = (e) => {
   const msg = e.data.pluginMessage;
   if (!msg) return;
   if (msg.type === 'export-ready') {
     const base64 = msg.base64;
     const fileName = msg.fileName || 'export.png';
-    const bytes = atob(base64);
-    const arr = new Uint8Array(bytes.length);
-    for (let i=0;i<bytes.length;i++) arr[i] = bytes.charCodeAt(i);
-    const blob = new Blob([arr], { type: 'image/png' });
+    const binary = atob(base64);
+    const len = binary.length;
+    const u8 = new Uint8Array(len);
+    for (let i=0;i<len;i++) u8[i] = binary.charCodeAt(i);
+    const blob = new Blob([u8], { type:'image/png' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   }
   if (msg.type === 'export-failed') {
     console.error('Export failed:', msg.error);
-    setNotice('Export failed: ' + (msg.error || ''));
   }
 };
 
-/* ===== UI refs ===== */
+/* UI refs */
 const unitSelect = document.getElementById('unitSelect');
 const dpiSelect = document.getElementById('dpiSelect');
 const lengthInput = document.getElementById('lengthInput');
@@ -282,7 +247,7 @@ const tabAll = document.getElementById('tabAll');
 const chipAll = document.getElementById('chipAll');
 const chipFav = document.getElementById('chipFav');
 
-/* ===== in-memory presets (demo) ===== */
+/* in-memory demo presets */
 let presets = [
   {_id:'p1', title:'Banner', width:800, height:300, unit:'MM', dpi:72, favorite:true},
   {_id:'p2', title:'V-Card', width:350, height:200, unit:'MM', dpi:72, favorite:false},
@@ -294,60 +259,28 @@ let presets = [
 let activeTab = 'your';
 let activeChip = 'all';
 
-/* ===== helpers ===== */
-function setNotice(txt) { /* small internal debug UI can be added here later */ console.log(txt); }
-
-/* Render presets small cards + labels */
-function renderPresets() {
+function renderPresets(){
   presetRow.innerHTML = '';
   presetLabels.innerHTML = '';
-
-  // decide items based on tab (demo: 'your' shows all; adapt if backend has author)
   let items = presets.slice();
-  if (activeTab === 'your') {
-    // no author check in demo; in real backend filter by authorId
-    items = items;
-  }
-
-  // favorites filter
+  if (activeTab === 'your') items = items;
   if (activeChip === 'fav') items = items.filter(p => p.favorite);
 
-  // render up to 6 to match screenshot spacing (but flexible)
-  items.slice(0, 8).forEach((p) => {
-    const card = document.createElement('div');
-    card.className = 'preset-card';
-    card.setAttribute('role','listitem');
-    // heart icon
-    const heart = document.createElement('div');
-    heart.className = 'heart' + (p.favorite ? ' fav' : '');
-    heart.innerHTML = p.favorite ? '♥' : '♡';
-    heart.addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      p.favorite = !p.favorite;
-      heart.classList.toggle('fav', p.favorite);
-      heart.innerHTML = p.favorite ? '♥' : '♡';
-    });
-    card.appendChild(heart);
+  items.slice(0,8).forEach(p => {
+    const c = document.createElement('div'); c.className='preset-card';
+    const heart = document.createElement('div'); heart.className='heart' + (p.favorite? ' fav':''); heart.innerHTML = p.favorite ? '♥' : '♡';
+    heart.addEventListener('click', (ev)=>{ ev.stopPropagation(); p.favorite=!p.favorite; heart.classList.toggle('fav', p.favorite); heart.innerHTML = p.favorite ? '♥' : '♡'; });
+    c.appendChild(heart);
+    c.addEventListener('click', ()=> { applyPreset(p); });
+    presetRow.appendChild(c);
 
-    card.addEventListener('click', () => {
-      applyPreset(p);
-    });
-
-    presetRow.appendChild(card);
-
-    // label
-    const lbl = document.createElement('div');
-    lbl.style.minWidth = '60px';
-    lbl.style.textAlign = 'center';
-    lbl.style.fontSize = '12px';
-    lbl.style.color = 'var(--muted-2)';
-    lbl.textContent = p.title;
+    const lbl = document.createElement('div'); lbl.style.minWidth='60px'; lbl.style.textAlign='center'; lbl.style.fontSize='12px'; lbl.style.color='var(--muted-2)'; lbl.textContent = p.title;
     presetLabels.appendChild(lbl);
   });
 
-  // fill with empty placeholders so labels align similar to screenshot
+  // placeholders so labels line up like screenshot
   const current = presetRow.children.length;
-  for (let i = current; i < 5; i++) {
+  for (let i=current; i<5; i++){
     const blank = document.createElement('div'); blank.style.width='60px'; blank.style.height='60px'; blank.style.marginRight='12px';
     presetRow.appendChild(blank);
     const blankLabel = document.createElement('div'); blankLabel.style.minWidth='60px'; blankLabel.style.visibility='hidden';
@@ -355,53 +288,40 @@ function renderPresets() {
   }
 }
 
-/* Apply preset values to form */
-function applyPreset(p) {
+function applyPreset(p){
   lengthInput.value = p.height || '';
   widthInput.value = p.width || '';
   unitSelect.value = p.unit || 'MM';
   dpiSelect.value = p.dpi ? String(p.dpi) : '72';
-  setNotice('Applied preset: ' + p.title);
 }
 
-/* ===== events ===== */
-exportBtn.addEventListener('click', () => {
+exportBtn.addEventListener('click', ()=>{
   const dpi = Number(dpiSelect.value) || 72;
-  const fileName = 'export.png';
-  postToPlugin({ type: 'export-frame', dpi, fileName });
+  postToPlugin({ type:'export-frame', dpi, fileName: 'export.png' });
 });
 
-savePresetBtn.addEventListener('click', () => {
-  const title = prompt('Preset name (e.g. Banner)');
-  if (!title) return;
-  const newPreset = {
-    _id: 'p' + Date.now(),
-    title,
-    width: Number(widthInput.value) || 0,
-    height: Number(lengthInput.value) || 0,
-    unit: unitSelect.value || 'MM',
-    dpi: Number(dpiSelect.value) || 72,
-    favorite: false
-  };
-  presets.unshift(newPreset);
+savePresetBtn.addEventListener('click', ()=>{
+  const title = prompt('Preset name');
+  if(!title) return;
+  const newP = {_id:'p'+Date.now(), title, width:Number(widthInput.value)||0, height:Number(lengthInput.value)||0, unit:unitSelect.value||'MM', dpi:Number(dpiSelect.value)||72, favorite:false};
+  presets.unshift(newP);
   renderPresets();
 });
 
-swapBtn.addEventListener('click', () => {
+swapBtn.addEventListener('click', ()=>{
   const t = lengthInput.value; lengthInput.value = widthInput.value; widthInput.value = t;
 });
 
-refreshBtn.addEventListener('click', () => renderPresets());
-closeBtn.addEventListener('click', () => postToPlugin({ type: 'close' }));
+refreshBtn.addEventListener('click', ()=> renderPresets());
+closeBtn.addEventListener('click', ()=> postToPlugin({ type:'close' }));
 
-tabYour.addEventListener('click', () => { activeTab = 'your'; tabYour.classList.add('active'); tabAll.classList.remove('active'); renderPresets(); });
-tabAll.addEventListener('click', () => { activeTab = 'all'; tabAll.classList.add('active'); tabYour.classList.remove('active'); renderPresets(); });
+tabYour.addEventListener('click', ()=>{ activeTab='your'; tabYour.classList.add('active'); tabAll.classList.remove('active'); renderPresets(); });
+tabAll.addEventListener('click', ()=>{ activeTab='all'; tabAll.classList.add('active'); tabYour.classList.remove('active'); renderPresets(); });
 
-chipAll.addEventListener('click', () => { activeChip = 'all'; chipAll.classList.add('active'); chipFav.classList.remove('active'); renderPresets(); });
-chipFav.addEventListener('click', () => { activeChip = 'fav'; chipFav.classList.add('active'); chipAll.classList.remove('active'); renderPresets(); });
+chipAll.addEventListener('click', ()=>{ activeChip='all'; chipAll.classList.add('active'); chipFav.classList.remove('active'); renderPresets(); });
+chipFav.addEventListener('click', ()=>{ activeChip='fav'; chipFav.classList.add('active'); chipAll.classList.remove('active'); renderPresets(); });
 
-/* initial render */
 renderPresets();
-</script>
+</script> 
 </body>
 </html>
