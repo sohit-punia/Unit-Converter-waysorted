@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Waysorted — Unit Conversion (Final)</title>
+<title>Waysorted — Unit Conversion </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 :root{
   --bg:#181818;
@@ -18,388 +19,956 @@
   --pad:14px;
   --fs-sm:12px;
   --fs-xs:11px;
+  --fc1: #282828;
+  --fc2: #2C2C2C;
+  --fc3: #383838;
+  --fc4: #444444;
+  --fc5: #818283;
+  --fc6: #C5C5C5;
+  --fc7: #FFFFFF;
+  --fc8: #265BD1;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  color: var(--white);
+  font-size: var(--fs-sm);
+}
+.container{
+    width: 1033px;
+    height: 240px;
+    background: linear-gradient(180deg, var(--panel-2), #222);
+    /* background: var(--fc2); */
+    border: 1px solid var(--card-border);
+    padding: var(--pad);
+    box-sizing: border-box;
+    border-radius: var(--radius);
+    display: flex;
+
 }
 
-html,body{margin:0;padding:0;background:transparent;font-family:Inter,system-ui,"Segoe UI",Roboto,Arial;color:var(--white);font-size:var(--fs-sm);}
-.wrap{padding:10px; box-sizing:border-box;}
-.panel {
-  width:100%;
-  height:260px;
-  border-radius:var(--radius);
-  background: linear-gradient(180deg,var(--panel-2), #222);
-  border:1px solid var(--card-border);
-  padding:var(--pad);
-  box-sizing:border-box;
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  position:relative;
-  overflow:hidden;
+.left-pannel{
+    width:473px;
+    align-items: center;
+    
+}
+  /* heading container (use the class you provided) */
+  .heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;                /* space between items */
+    padding: 4px 0;
+    box-sizing: border-box;
+    user-select: none;
+  }
+
+  /* white square box (16x16) */
+  .whitebox {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 3px;      /* small rounding to match screenshot */
+    flex: 0 0 16px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* text: fixed bounding box 87x16 */
+  .heading p {
+    height: 16px;            
+  }
+  .heading .info-icon {
+    width: 11px;            
+    height: 11px;            
+    display: inline-block;
+    flex: 0 0 11px;
+    box-sizing: border-box;
+    color: var(--muted);
+  }
+
+  /* style the SVG stroke to inherit color */
+  .heading .info-icon i {
+    width: 11px;
+    height: 11px;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    color: white;
+  }
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-/* LEFT area (main) */
-.left { flex:0 0 58%; display:flex; flex-direction:column; gap:8px; position:relative; }
-
-.header { display:flex; align-items:center; gap:12px; }
-.logo { width:34px;height:24px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px; }
-.plugin-title { font-weight:600; font-size:13px; color:var(--white); }
-
-.row { display:flex; gap:10px; align-items:center; }
-label { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:var(--fs-xs); white-space:nowrap; }
-select, input[type="number"], input[type="text"] {
-  background:#2b2b2b; border:1px solid rgba(255,255,255,0.03); color:var(--white); padding:6px 8px; border-radius:8px; font-size:var(--fs-sm); outline:none;
-}
-.small { min-width:60px; }
-
-/* Grid with two rows: left column = length/width; right column is presets.
-   Bleed is absolutely positioned inside .left so it sits next to Add Bleed. */
-.sizes-block {
-  display:grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-  column-gap:8px;
-  row-gap:12px;
-  width:100%;
-  box-sizing:border-box;
+label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
 }
 
-/* size row (left column) */
-.size-row {
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.size-label { color:var(--muted); font-size:var(--fs-xs); min-width:44px; }
-
-.pair { display:flex; align-items:center; gap:6px; }
-.short { width:48px; height:26px; background:#2a2a2a; border-radius:8px; border:1px solid rgba(255,255,255,0.03); display:flex; align-items:center; }
-.short input{ background:transparent; border:none; outline:none; color:var(--white); width:100%; padding:0 6px; font-size:13px; }
-
-.swap-mini{ width:28px; height:26px; display:flex; align-items:center; justify-content:center; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); border-radius:8px; cursor:pointer; }
-
-.px-inline { margin-left:6px; color:var(--muted); font-size:var(--fs-xs); min-width:20px; text-align:left; }
-
-/* Bleed group: absolutely positioned inside .left so it sits immediately to the right of Add Bleed.
-   top/left may be tweaked if you want a small nudge. */
-.bleed-block {
-  position:absolute;
-  left: 260px;   /* adjust if you want to nudge horizontally */
-  top: 72px;     /* adjust if you want to nudge vertically */
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  align-items:flex-start;
-  pointer-events:auto;
+select,
+input[type="number"],
+input[type="text"] {
+  background: #2b2b2b;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--white);
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: var(--fs-sm);
+  outline: none;
 }
 
-.bleed-row { 
-  display:flex; 
-  gap:14px; /* ⬅ increased spacing between boxes */
-  align-items:center; 
+/* input boxes CSS  */
+  .panel {
+    width: 473px;
+    padding: 18px;
+    box-sizing: border-box;
+    color: var(--fc7);
+    font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+    font-size: 13px;
+    display: flex;
+    gap: 18px;                 /* gap between left & right groups */
+    align-items: center;  
+  }
+
+  /* LEFT column: contains both Length and Width stacked */
+  .left-col {
+    flex: 0 0 300px;           /* fixed base width for left group */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .field-label {
+    height: 16px;
+    width: 36px;
+    color: var(--fc7);
+    flex-shrink: 0;
+  }
+
+  .size-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* boxes use fc3 as background as requested */
+  .size-input {
+    width: 50px;             
+    height: 18px;              
+    line-height: 18px;
+    background: var(--fc4);    
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .size-input:focus {
+    box-shadow: 0 0 0 3px rgba(38,91,209,0.06);
+    border-color: rgba(38,91,209,0.22);
+  }
+
+  .swap-btn {
+  width: auto;                 
+  height: auto;
+  background: none;           
+  border: none;                
+  padding: 0;                 
+  margin: 0;
+  color: var(--fc6);
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  line-height: 1;              
+  }
+
+  .px-text {
+    color: var(--fc5);
+    margin-left: 0px;
+    min-width: 20px;
+    font-size: 10px;
+  }
+
+  /* RIGHT column: contains top/bottom/left/right + link icon */
+  .right-col {
+    flex: 1 1 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    position: absolute;
+    margin-left: 248px;
+    
+  }
+
+  .tb-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 12px;
+    row-gap: 8px;
+    align-items: center;
+    background: transparent;
+  }
+
+  .tb-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tb-label {
+    color: var(--fc7);
+    font-size: 13px;
+    min-width: 36px;
+    text-align: left;
+  }
+
+  .tb-input {
+    width: 41px;            
+    height: 18px;             
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 18px;
+    background: var(--fc3);   
+    border: 1px solid rgba(255,255,255,0.03);
+    color: var(--fc7);
+    border-radius: 6px;
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .tb-input:focus {
+    box-shadow: 0 0 0 3px rgba(38,91,209,0.05);
+    border-color: rgba(38,91,209,0.18);
+  }
+
+  /* Link icon wrapper */
+  .link-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;             
+  }
+
+  .link-btn {
+    width: 19px;          
+    height: 19px;            
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+.link-btn img {
+  width: 15px;
+  height: 15px;
+  filter: brightness(0) invert(1); 
+  transition: filter 0.2s ease;
 }
-.bleed-cell { 
-  display:flex; 
-  flex-direction:row;   /* ⬅ label now on the right */
-  align-items:center; 
-  gap:6px;              /* ⬅ small space between box and label */
-}
-.bleed-label { 
-  color:var(--muted); 
-  font-size:12px;      /* ⬅ slightly larger font */
-  white-space:nowrap;
-}
-.bleed-input { 
-  width:68px;          /* ⬅ was 54px */
-  height:30px;         /* ⬅ slightly taller too */
-  background:#2a2a2a; 
-  border-radius:8px; 
-  border:1px solid rgba(255,255,255,0.03); 
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
+
+.link-btn.linked img {
+  filter: invert(48%) sepia(86%) saturate(3263%) hue-rotate(210deg) brightness(98%) contrast(97%);
 }
 
-.bleed-input input { background:transparent; border:none; outline:none; color:var(--white); width:100%; padding:0 6px; font-size:13px; text-align:center; }
+  /* subtle labels / muted text like "px" */
+  .muted { color: var(--fc5); font-size: 12px; }
 
-/* Buttons: moved down slightly so they don't cut bleed boxes */
-.actions { display:flex; gap:10px; margin-top:18px; align-items:center; } /* <-- moved down (18px) */
-.btn { background:var(--accent); color:var(--white); padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-size:13px; }
-.btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--white); }
+  /* small helper text below panel */
+  .hint {
+    color: var(--fc5);
+    font-size: 12px;
+    margin-top: 8px;
+  }
 
-/* RIGHT area (presets) */
-.right { flex:1; display:flex; flex-direction:column; gap:8px; min-width:320px; }
+  /* remove number spinner on webkit */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-.presets-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-.tabs { display:flex; gap:10px; align-items:center; }
-.tab { padding:6px 10px; border-radius:10px; background:transparent; color:var(--muted); border:1px solid transparent; font-size:var(--fs-xs); cursor:pointer; }
-.tab.active { background: rgba(255,255,255,0.03); color:var(--white); border-color:rgba(255,255,255,0.04); }
+  /* small responsiveness */
+  @media (max-width:520px){
+    .panel { width: 100%; flex-direction: column; align-items: stretch; gap: 12px; }
+    .right-col { justify-content: flex-start; }
+}
 
-.chip-row { display:flex; gap:8px; align-items:center; margin-top:6px; }
-.chip { padding:6px 10px; border-radius:14px; background:rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; font-size:var(--fs-xs); }
-.chip.active { background:var(--accent); color:white; }
+/* actions button 3 buttond  */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  align-items: center;
+}
 
-.preset-area { margin-top:8px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); padding:12px; background: rgba(255,255,255,0.01); box-sizing:border-box; height:140px; }
-.preset-row { display:flex; gap:12px; align-items:flex-start; height:72px; overflow:hidden; }
+/* normal buttons */
+.btn {
+  width: 116px;
+  height: 24px;
+  background: var(--fc8);
+  color: var(--white);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
 
-.preset-card { width:60px; height:60px; background:#2a2a2a; border-radius:10px; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer; border:1px solid rgba(255,255,255,0.02); }
-.preset-card .heart { position:absolute; top:8px; left:8px; width:18px; height:18px; border-radius:6px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); color:var(--muted); font-size:11px; }
-.preset-card .heart.fav { background:var(--accent); color:white; }
-.preset-labels { display:flex; gap:22px; margin-top:8px; align-items:center; color:var(--muted-2); font-size:12px; }
+.btn.ghost {
+  width: 112px;
+  height: 24px;
+  background: var(--fc1);
+  border-radius: 4px;
+}
 
-.chev-wrap { position:absolute; left:50%; transform:translateX(-50%); bottom:-10px; width:28px; height:18px; display:flex; align-items:center; justify-content:center; }
+/* orientation group (text + 2 icons) */
+.orientation-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-/* hide scrollbars */
-.panel::-webkit-scrollbar{display:none;}
-.preset-area::-webkit-scrollbar{display:none;}
+#orientationBtn {
+  margin-left: 50px;
+  width: auto;
+  padding: 0 10px;
+  height: 24px;
+}
+
+/* icon buttons */
+.icon-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.icon-btn[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-btn img {
+  pointer-events: none;
+}
+
+
+/* right pannel */
+  /* Panel wrapper for the right panel area */
+  .right-panel {
+    width: 473px;                    
+    background: transparent;
+    color: var(--fc7);
+    font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+    box-sizing: border-box;
+    margin-left: 25px;
+  }
+
+  /* 1) Top row: tabs + edit icon */
+  .top-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 12px;
+  }
+
+  .tabs {
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+
+  .tab-your {
+    width:84px;
+    height:26px;
+    border-radius:12px;
+    background: rgba(255,255,255,0.03);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    color:var(--fc7);
+    border:1px solid rgba(255,255,255,0.02);
+    cursor:pointer;
+    padding:0 8px;
+  }
+
+  .tab-all {
+    width:84px;
+    height:30px;
+    border-radius:12px;
+    background: transparent;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    color:var(--fc5);
+    border:1px solid transparent;
+    cursor:pointer;
+    padding:0 8px;
+  }
+
+  .tab-your.active, .tab-all.active {
+    background: rgba(255,255,255,0.04);
+    color: var(--fc7);
+    border-color: rgba(255,255,255,0.04);
+  }
+
+  /* small edit icon with marked border */
+  .edit-btn {
+    margin-left: auto;
+    width:34px;
+    height:34px;
+    border-radius:8px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.02);
+    cursor:pointer;
+  }
+
+  .edit-btn svg { width:18px; height:18px; stroke:var(--fc6); fill:none; stroke-width:1.25; }
+
+  /* 2) Filter row + presets area */
+  .filter-area {
+    margin-top:8px;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.02);
+    background: rgba(255,255,255,0.01);
+    box-sizing:border-box;
+  }
+
+  .filters {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+
+  /* "ALL" small box: 29 x 22, radius 8, bg --fc8 */
+  .filter-all {
+    width:29px;
+    height:22px;
+    border-radius:8px;
+    background: var(--fc8);
+    color: #fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    cursor:pointer;
+    border: none;
+  }
+
+  /* "Favorites" pill: 62 x 22 */
+  .filter-fav {
+    width:62px;
+    height:22px;
+    border-radius:12px;
+    background: rgba(255,255,255,0.02);
+    color: var(--fc7);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    cursor:pointer;
+    border: 1px solid rgba(255,255,255,0.02);
+    padding:0 8px;
+  }
+
+  .filter-fav.active, .filter-all.active {
+    box-shadow: 0 0 0 3px rgba(38,91,209,0.06);
+    border-color: rgba(38,91,209,0.18);
+  }
+
+  /* banner row */
+  .banners {
+    display:flex;
+    gap:14px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  /* each banner card */
+  .banner {
+    width:58px;
+    height:58px;
+    border-radius:8px;
+    background: var(--fc3);
+    border:1px solid rgba(255,255,255,0.02);
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-sizing:border-box;
+    transition: box-shadow .12s, transform .08s;
+  }
+
+  .banner:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
+  }
+
+  /* "like" heart at top-left of banner (small) */
+  .banner .heart {
+    position:absolute;
+    top:6px;
+    left:6px;
+    width:18px;
+    height:18px;
+    border-radius:6px;
+    background: rgba(255,255,255,0.02);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+
+  .banner .heart svg { width:12px; height:12px; stroke:var(--fc6); fill:none; stroke-width:1.2; }
+
+  .banner.liked .heart { background: var(--fc8); border-color: rgba(0,0,0,0.15); }
+  .banner.liked .heart svg { stroke: #fff; fill: #fff; }
+
+  /* label under banner */
+  .banner-label {
+    margin-top:8px;
+    font-size:12px;
+    color:var(--fc6);
+    text-align:center;
+  }
+
+  /* containing each banner block (card + label) */
+  .banner-block {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    width:72px;  /* enough space for label */
+  }
+
+  /* marked border link: a small chain icon with border (to the right inside filter-area) */
+  .chain-mark {
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:8px;
+    border:1px dashed rgba(255,255,255,0.06);  /* marked dashed border */
+    color:var(--fc6);
+    background: rgba(255,255,255,0.01);
+    cursor:pointer;
+  }
+  .chain-mark svg { width:16px; height:16px; stroke:var(--fc6); fill:none; stroke-width:1.2; }
+
+  /* 3) Arrow area (centered below) */
+  .arrow-wrap {
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .arrow {
+    width:20px;
+    height:20px;
+    border-radius:8px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .arrow svg { width:14px; height:14px; stroke:var(--fc6); fill:none; stroke-width:1.25; }
+
+  /* helper - hidden state when nothing to show */
+  .hidden { display:none !important; }
+
+  /* small responsive tweak */
+  @media (max-width:520px){
+    .right-panel { width:100%; }
+    .filters { gap:8px; }
+    .banners { gap:10px; }
+  }
+  .arrow i{
+    width:20px;
+    height:20px;   /* adjust size */
+  cursor: pointer;     /* makes it clickable */
+  color: white; 
+  margin-bottom: 9px;    
+  margin-right: 370px;   /* or any color you want */
+
+  }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="panel" role="region" aria-label="Waysorted Unit Conversion - final">
-      <!-- LEFT -->
-      <div class="left">
-        <div class="header">
-          <div class="logo">W</div>
-          <div class="plugin-title">Unit Conversion</div>
+<div class="container">
+        <div class="left-pannel">
+            <div class="heading" role="heading" aria-level="2" aria-label="Unit Conversion heading">
+                <div class="whitebox" aria-hidden="true"></div>
+                <p>Unit Conversion</p>
+                <span class="info-icon" title="More info" aria-hidden="false">
+                <!-- simple info / circle icon -->
+                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/info_detkgl.svg" alt="Info Icon" width="11" height="11" />
+                </span>
+            </div>
+            <div class="modes">
+                <!-- Unit / DPI / Add Bleed -->
+                <div class="row" style="margin-top:4px;">
+                    <label>Unit
+                        <select id="unitSelect" class="small">
+                        <option value="MM">MM</option>
+                        <option value="CM">CM</option>
+                        <option value="M">Meter</option>
+                        <option value="IN">Inch</option>
+                        <option value="FT">Feet</option>
+                        </select>
+                    </label>
+
+                    <label>DPI
+                        <select id="dpiSelect" class="small">
+                        <option value="72">72 DPI</option>
+                        <option value="150">150 DPI</option>
+                        <option value="300">300 DPI</option>
+                        </select>
+                    </label>
+
+                    <label style="margin-left:48px; display:flex; align-items:center;">
+                        <input id="addBleed" type="checkbox" /> <span style="margin-left:-2px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
+                    </label>
+                </div>
+            </div>
+            <div class="input">
+                        <div class="panel" role="region" aria-label="Unit panel (Length/Width and Bleed)">
+                        <!-- LEFT column -->
+                        <div class="left-col" aria-label="Length and width group">
+                            <!-- Length field -->
+                            <div class="field" role="group" aria-label="Length">
+                            <div class="field-label">Length</div>
+
+                            <div class="size-group">
+                                <input id="len-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length left" />
+                                <button class="swap-btn" id="swapLen" title="Swap length values" aria-label="Swap length">⇄</button>
+                                <input id="len-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length right" />
+                                <div class="px-text">px</div>
+                            </div>
+                           </div>
+
+                            <!-- Width field -->
+                            <div class="field" role="group" aria-label="Width">
+                            <div class="field-label">Width</div>
+
+                            <div class="size-group">
+                                <input id="wid-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width left" />
+                                <button class="swap-btn" id="swapWid" title="Swap width values" aria-label="Swap width">⇄</button>
+                                <input id="wid-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width right" />
+                                <div class="px-text">px</div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT column -->
+                        <div class="right-col" aria-label="Top bottom left right group">
+                            <div class="tb-grid" role="group" aria-label="Top bottom left right">
+                            <div class="tb-cell">
+    
+                                <input id="top" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Top" />
+                                <div class="tb-label">Top</div>
+                            </div>
+
+                            <div class="tb-cell">
+                                
+                                <input id="bottom" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Bottom" />
+                                <div class="tb-label">Bottom</div>
+                            </div>
+
+                            <div class="tb-cell">
+                                
+                                <input id="left" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Left" />
+                                <div class="tb-label">Left</div>
+                            </div>
+
+                            <div class="tb-cell">
+                                
+                                
+                                <input id="right" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Right" />
+                                <div class="tb-label">Right</div>
+                            </div>
+                            </div>
+
+                            <div class="link-wrap">
+                            <button id="linkBtn" class="link-btn" aria-pressed="false" title="Toggle link (make values same)">
+                                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/link_icon_whcrae.svg" 
+                                    alt="Link Icon" 
+                                    width="6"
+                                    height="6">
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="actions">
+                <button id="exportBtn" class="btn">Create a Frame</button>
+                <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
+                <button id="orientationBtn" class="btn ghost">Orientation</button>
+                <button id="horizontalImgBtn" class="icon-btn" aria-pressed="false" title="Horizontal Image">
+                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/horizontal_image_bomcid.svg" alt="Horizontal Image Icon" width="19" height="19">
+                </button>
+                <button id="landscapeBtn" class="icon-btn" aria-pressed="false" title="Landscape">
+                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/landscape_nqp4qs.svg" alt="Landscape Icon" width="19" height="19">
+                </button>
+            </div>
         </div>
+        <!-- right pannel -->
+            <div class="right-panel" role="complementary" aria-label="Right panel - presets">
+                <!-- 1) Top row -->
+                <div class="top-row">
+                <div class="tabs" role="tablist" aria-label="Preset tabs">
+                    <div class="tab-your active" id="tabYour">Your Presets</div>
+                    <div class="tab-all" id="tabAll">All Presets</div>
+                </div>
+                <button class="edit-btn" id="editBtn" title="Edit presets" aria-label="Edit presets">
+                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/edit_icon_tzvijx.svg" alt="Edit Icon" width="10" height="10">
+                </button>
+                </div>
 
-        <!-- Unit / DPI / Add Bleed -->
-        <div class="row" style="margin-top:4px;">
-          <label>Unit
-            <select id="unitSelect" class="small">
-              <option value="MM">MM</option>
-              <option value="CM">CM</option>
-              <option value="M">Meter</option>
-              <option value="IN">Inch</option>
-              <option value="FT">Feet</option>
-            </select>
-          </label>
+                <!-- 2) Filter area + banners -->
+                <div class="filter-area">
+                   <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="filters" role="tablist" aria-label="Filters">
+                    <button class="filter-all active" id="btnAll" title="Show all">All</button>
+                    <button class="filter-fav" id="btnFav" title="Show favorites">Favorites</button>
+                    </div>
 
-          <label>DPI
-            <select id="dpiSelect" class="small">
-              <option value="72">72 DPI</option>
-              <option value="150">150 DPI</option>
-              <option value="300">300 DPI</option>
-            </select>
-          </label>
+                    
+                </div>
 
-          <label style="margin-left:6px; display:flex; align-items:center;">
-            <input id="addBleed" type="checkbox" /> <span style="margin-left:6px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
-          </label>
+                <!-- banners row -->
+                <div class="banners" id="bannersRow" aria-live="polite">
+                    <!-- sample banner blocks - you can add more or generate dynamically -->
+                    <div class="banner-block" data-id="b1">
+                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Banner">
+                        <div class="heart" data-action="toggle-like" title="Like">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                    <div class="banner-label">Banner</div>
+                    </div>
+
+                    <div class="banner-block" data-id="b2">
+                    <div class="banner" role="button" tabindex="0" aria-label="Banner - V-Card">
+                        <div class="heart" data-action="toggle-like" title="Like">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                    <div class="banner-label">V-Card</div>
+                    </div>
+
+                    <div class="banner-block" data-id="b3">
+                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Standee">
+                        <div class="heart" data-action="toggle-like" title="Like">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                    <div class="banner-label">Standee</div>
+                    </div>
+
+                    <div class="banner-block" data-id="b4">
+                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Bi fold">
+                        <div class="heart" data-action="toggle-like" title="Like">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                    <div class="banner-label">Bi fold</div>
+                    </div>
+
+                    <div class="banner-block" data-id="b5">
+                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Brochure">
+                        <div class="heart" data-action="toggle-like" title="Like">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                    <div class="banner-label">Brochure</div>
+                    </div>
+                </div>
+                </div>
+
+            <!-- 3) Arrow below -->
+                <div class="arrow-wrap">
+                <div class="arrow" title="Expand / collapse">
+                    <!-- <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8l-4 4h8z" stroke-linecap="round" stroke-linejoin="round"/></svg> -->
+                     <i class="fa-solid fa-chevron-up"></i>
+                </div>
+            </div>
         </div>
-
-        <!-- sizes block: length and width rows -->
-        <div class="sizes-block" style="margin-top:6px;">
-          <!-- Length row -->
-          <div class="size-row" style="grid-row:1/2;">
-            <div class="size-label">Length</div>
-            <div class="pair">
-              <div class="short"><input id="lengthInput" type="number" placeholder="0"></div>
-              <button id="swapLenBtn" class="swap-mini" title="swap">⇄</button>
-              <div class="short"><input id="lengthInput2" type="number" placeholder=""></div>
-              
-            </div>
-            <div class="px-inline">px</div>
-          </div>
-
-          <!-- Width row -->
-          <div class="size-row" style="grid-row:2/3;">
-            <div class="size-label">Width</div>
-            <div class="pair">
-              <div class="short"><input id="widthInput" type="number" placeholder="0"></div>
-              <button id="swapWidBtn" class="swap-mini" title="swap">⇄</button>
-              <div class="short"><input id="widthInput2" type="number" placeholder=""></div>
-              
-            </div>
-            <div class="px-inline">px</div>
-          </div>
-        </div>
-
-        <!-- bleed group positioned next to Add Bleed (left-panel absolute) -->
-        <div class="bleed-block" aria-hidden="false">
-          <div class="bleed-row">
-            <div class="bleed-cell">
-              <div class="bleed-label">Top</div>
-              <div class="bleed-input"><input id="bleedTop" type="number" placeholder=""></div>
-            </div>
-            <div class="bleed-cell">
-              <div class="bleed-label">Bottom</div>
-              <div class="bleed-input"><input id="bleedBottom" type="number" placeholder=""></div>
-            </div>
-          </div>
-          <div class="bleed-row">
-            <div class="bleed-cell">
-              <div class="bleed-label">Left</div>
-              <div class="bleed-input"><input id="bleedLeft" type="number" placeholder=""></div>
-            </div>
-            <div class="bleed-cell">
-              <div class="bleed-label">Right</div>
-              <div class="bleed-input"><input id="bleedRight" type="number" placeholder=""></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Buttons (moved down a little) -->
-        <div class="actions">
-          <button id="exportBtn" class="btn">Export as Frame</button>
-          <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
-          <button id="orientationBtn" class="btn ghost">Orientation</button>
-        </div>
-      </div>
-
-      <!-- RIGHT (presets) -->
-      <div class="right">
-        <div class="presets-header">
-          <div style="display:flex;flex-direction:column;">
-            <!-- <div style="font-weight:600;color:var(--white);">Your Presets</div> -->
-            <div class="tabs" style="margin-top:6px;">
-              <button id="tabYour" class="tab active">Your Presets</button>
-              <button id="tabAll" class="tab">All Presets</button>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;align-items:flex-end;">
-            <div class="chip-row">
-              <div id="chipAll" class="chip active">All</div>
-              <div id="chipFav" class="chip">Favorites</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="preset-area">
-          <div class="preset-row" id="presetRow" role="list" aria-label="Presets row"></div>
-          <div class="preset-labels" id="presetLabels"></div>
-          <div class="preset-footer"></div>
-        </div>
-      </div>
-
-      <div class="chev-wrap" aria-hidden="true">
-        <svg width="20" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
     </div>
-  </div>
-
 <script>
-/* plugin comms */
-function postToPlugin(msg){ parent.postMessage({ pluginMessage: msg }, '*'); }
-window.onmessage = (e) => {
-  const msg = e.data.pluginMessage;
-  if (!msg) return;
-  if (msg.type === 'export-ready') {
-    const base64 = msg.base64;
-    const fileName = msg.fileName || 'export.png';
-    const binary = atob(base64);
-    const len = binary.length;
-    const u8 = new Uint8Array(len);
-    for (let i=0;i<len;i++) u8[i] = binary.charCodeAt(i);
-    const blob = new Blob([u8], { type:'image/png' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+/* Link toggle behavior for the four tb inputs */
+(function(){
+  const linkBtn = document.getElementById('linkBtn');
+  const tbIds = ['top','bottom','left','right'];
+  const tbInputs = tbIds.map(id => document.getElementById(id));
+  let linked = false;
+  const syncHandlers = new Map();
+
+  function setLinked(state) {
+    linked = !!state;
+    if (linked) {
+      linkBtn.classList.add('linked');
+      linkBtn.setAttribute('aria-pressed','true');
+
+      // choose source value: first non-empty, otherwise '0'
+      let source = tbInputs.find(i => i.value !== '')?.value ?? tbInputs[0].value ?? '0';
+      if (source === '') source = '0';
+      tbInputs.forEach(i => i.value = source);
+
+      // attach input listeners so editing any input updates the rest
+      tbInputs.forEach(inp => {
+        const handler = (e) => {
+          const v = e.target.value;
+          tbInputs.forEach(other => { if (other !== e.target) other.value = v; });
+        };
+        inp.addEventListener('input', handler);
+        syncHandlers.set(inp, handler);
+      });
+
+    } else {
+      linkBtn.classList.remove('linked');
+      linkBtn.setAttribute('aria-pressed','false');
+
+      // remove handlers
+      syncHandlers.forEach((handler, input) => {
+        input.removeEventListener('input', handler);
+      });
+      syncHandlers.clear();
+    }
   }
-};
 
-/* UI refs */
-const unitSelect = document.getElementById('unitSelect');
-const dpiSelect = document.getElementById('dpiSelect');
-const addBleed = document.getElementById('addBleed');
-const lengthInput = document.getElementById('lengthInput');
-const lengthInput2 = document.getElementById('lengthInput2');
-const widthInput = document.getElementById('widthInput');
-const widthInput2 = document.getElementById('widthInput2');
-const bleedTop = document.getElementById('bleedTop');
-const bleedBottom = document.getElementById('bleedBottom');
-const bleedLeft = document.getElementById('bleedLeft');
-const bleedRight = document.getElementById('bleedRight');
-const exportBtn = document.getElementById('exportBtn');
-const savePresetBtn = document.getElementById('savePresetBtn');
-const swapLenBtn = document.getElementById('swapLenBtn');
-const swapWidBtn = document.getElementById('swapWidBtn');
-const tabYour = document.getElementById('tabYour');
-const tabAll = document.getElementById('tabAll');
-const chipAll = document.getElementById('chipAll');
-const chipFav = document.getElementById('chipFav');
-const presetRow = document.getElementById('presetRow');
-const presetLabels = document.getElementById('presetLabels');
-
-/* in-memory presets (demo) */
-let presets = [
-  {_id:'p1', title:'Banner', width:800, height:300, unit:'MM', dpi:72, favorite:true},
-  {_id:'p2', title:'V-Card', width:350, height:200, unit:'MM', dpi:72, favorite:false},
-  {_id:'p3', title:'Standee', width:800, height:1800, unit:'MM', dpi:72, favorite:false},
-  {_id:'p4', title:'Bi fold', width:420, height:297, unit:'MM', dpi:72, favorite:false},
-  {_id:'p5', title:'Brochure', width:210, height:297, unit:'MM', dpi:72, favorite:false}
-];
-
-let activeTab = 'your';
-let activeChip = 'all';
-
-function renderPresets(){
-  presetRow.innerHTML = '';
-  presetLabels.innerHTML = '';
-  let items = presets.slice();
-  if (activeTab === 'your') items = items;
-  if (activeChip === 'fav') items = items.filter(p => p.favorite);
-
-  items.slice(0,8).forEach(p => {
-    const c = document.createElement('div'); c.className='preset-card';
-    const heart = document.createElement('div'); heart.className='heart' + (p.favorite? ' fav':''); heart.innerHTML = p.favorite ? '♥' : '♡';
-    heart.addEventListener('click', (ev)=>{ ev.stopPropagation(); p.favorite=!p.favorite; heart.classList.toggle('fav', p.favorite); heart.innerHTML = p.favorite ? '♥' : '♡'; });
-    c.appendChild(heart);
-    c.addEventListener('click', ()=> { applyPreset(p); });
-    presetRow.appendChild(c);
-
-    const lbl = document.createElement('div'); lbl.style.minWidth='60px'; lbl.style.textAlign='center'; lbl.style.fontSize='12px'; lbl.style.color='var(--muted-2)'; lbl.textContent = p.title;
-    presetLabels.appendChild(lbl);
+  linkBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    setLinked(!linked);
   });
 
-  // placeholders so labels line up like screenshot
-  const current = presetRow.children.length;
-  for (let i=current; i<5; i++){
-    const blank = document.createElement('div'); blank.style.width='60px'; blank.style.height='60px'; blank.style.marginRight='12px';
-    presetRow.appendChild(blank);
-    const blankLabel = document.createElement('div'); blankLabel.style.minWidth='60px'; blankLabel.style.visibility='hidden';
-    presetLabels.appendChild(blankLabel);
+  // Swap handlers for length & width
+  function swapValues(aId,bId){
+    const a = document.getElementById(aId);
+    const b = document.getElementById(bId);
+    const tmp = a.value;
+    a.value = b.value;
+    b.value = tmp;
   }
-}
 
-function applyPreset(p){
-  lengthInput.value = p.height || '';
-  lengthInput2.value = '';
-  widthInput.value = p.width || '';
-  widthInput2.value = '';
-  unitSelect.value = p.unit || 'MM';
-  dpiSelect.value = p.dpi ? String(p.dpi) : '72';
-}
+  document.getElementById('swapLen').addEventListener('click', (e)=>{
+    e.preventDefault();
+    swapValues('len-left','len-right');
+  });
+  document.getElementById('swapWid').addEventListener('click', (e)=>{
+    e.preventDefault();
+    swapValues('wid-left','wid-right');
+  });
 
-/* events */
-exportBtn.addEventListener('click', ()=>{
-  const dpi = Number(dpiSelect.value) || 72;
-  postToPlugin({ type:'export-frame', dpi, fileName: 'export.png' });
-});
+  // initialize unlinked
+  setLinked(false);
+})();
 
-savePresetBtn.addEventListener('click', ()=>{
-  const title = prompt('Preset name (demo)');
-  if(!title) return;
-  const newP = {_id:'p'+Date.now(), title, width:Number(widthInput.value)||0, height:Number(lengthInput.value)||0, unit:unitSelect.value||'MM', dpi:Number(dpiSelect.value)||72, favorite:false};
-  presets.unshift(newP);
-  renderPresets();
-});
+/* JS: like toggle + filters (All / Favorites) + simple UI states */
+(function(){
+  const bannersRow = document.getElementById('bannersRow');
+  const bannerBlocks = Array.from(bannersRow.querySelectorAll('.banner-block'));
+  const btnAll = document.getElementById('btnAll');
+  const btnFav = document.getElementById('btnFav');
 
-swapLenBtn.addEventListener('click', ()=>{
-  const t = lengthInput.value; lengthInput.value = lengthInput2.value; lengthInput2.value = t;
-});
-swapWidBtn.addEventListener('click', ()=>{
-  const t = widthInput.value; widthInput.value = widthInput2.value; widthInput2.value = t;
-});
+  // Toggle like on heart click
+  bannersRow.addEventListener('click', (e) => {
+    const heart = e.target.closest('.heart');
+    if (!heart) return;
+    const block = heart.closest('.banner-block');
+    const banner = block.querySelector('.banner');
+    banner.classList.toggle('liked');
+    // update vis for filter if favorites selected
+    if (btnFav.classList.contains('active')) {
+      // if now not liked, hide it
+      if (!banner.classList.contains('liked')) {
+        block.style.display = 'none';
+      }
+    }
+  });
 
-tabYour.addEventListener('click', ()=>{ activeTab='your'; tabYour.classList.add('active'); tabAll.classList.remove('active'); renderPresets(); });
-tabAll.addEventListener('click', ()=>{ activeTab='all'; tabAll.classList.add('active'); tabYour.classList.remove('active'); renderPresets(); });
+  // Filter: All
+  btnAll.addEventListener('click', () => {
+    btnAll.classList.add('active');
+    btnFav.classList.remove('active');
+    // show all
+    bannerBlocks.forEach(b => b.style.display = '');
+  });
 
-chipAll.addEventListener('click', ()=>{ activeChip='all'; chipAll.classList.add('active'); chipFav.classList.remove('active'); renderPresets(); });
-chipFav.addEventListener('click', ()=>{ activeChip='fav'; chipFav.classList.add('active'); chipAll.classList.remove('active'); renderPresets(); });
+  // Filter: Favorites
+  btnFav.addEventListener('click', () => {
+    btnFav.classList.add('active');
+    btnAll.classList.remove('active');
+    // show only liked
+    bannerBlocks.forEach(b => {
+      const isLiked = b.querySelector('.banner').classList.contains('liked');
+      b.style.display = isLiked ? '' : 'none';
+    });
+  });
 
-/* initial render */
-renderPresets();
+  // Keyboard accessible like (space/enter on banner toggles like)
+  bannersRow.addEventListener('keydown', (e) => {
+    const bannerEl = e.target.closest('.banner');
+    if (!bannerEl) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      bannerEl.classList.toggle('liked');
+    }
+  });
+
+  // small: clicking a banner (not heart) can toggle selection visual
+  bannersRow.addEventListener('click', (e) => {
+    const bannerEl = e.target.closest('.banner');
+    if (!bannerEl) return;
+    // if click on heart we already handled. if click elsewhere, toggle a subtle border as selection
+    if (e.target.closest('.heart')) return;
+    bannerEl.classList.toggle('selected');
+    if (bannerEl.classList.contains('selected')) {
+      bannerEl.style.boxShadow = '0 8px 20px rgba(0,0,0,0.6)';
+    } else {
+      bannerEl.style.boxShadow = '';
+    }
+  });
+
+  // initial state: All active
+  btnAll.classList.add('active');
+})();
 </script>
 </body>
 </html>
