@@ -1,6 +1,6 @@
 // code.js - final plugin main
 // Shows UI at the correct compact size and handles export message.
-figma.showUI(__html__, { width: 1300, height: 300 });
+figma.showUI(__html__, { width: 1033, height: 240});
 
 figma.ui.onmessage = async (msg) => {
   if (!msg || !msg.type) return;

@@ -6,6 +6,16 @@
 <title>Waysorted — Unit Conversion </title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
+ @font-face {
+      font-family: "HankenGrotesk";
+      src: url("https://cdn.jsdelivr.net/npm/@fontsource/hanken-grotesk@5.2.6/files/hanken-grotesk-latin-400-normal.woff2") format("woff2"),
+        url("https://cdn.jsdelivr.net/npm/@fontsource/hanken-grotesk@5.2.6/files/hanken-grotesk-latin-400-normal.woff") format("woff");
+    }
+    *,
+    *::before,
+    *::after {
+      font-family: "HankenGrotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
 :root{
   --bg:#181818;
   --panel:#242424;
@@ -33,15 +43,14 @@ body {
   margin: 0;
   padding: 0;
   background: transparent;
-  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
   color: var(--white);
   font-size: var(--fs-sm);
+  font-family: "HankenGrotesk",
 }
 .container{
     width: 1033px;
     height: 240px;
     background: linear-gradient(180deg, var(--panel-2), #222);
-    /* background: var(--fc2); */
     border: 1px solid var(--card-border);
     padding: var(--pad);
     box-sizing: border-box;
@@ -55,11 +64,11 @@ body {
     align-items: center;
     
 }
-  /* heading container (use the class you provided) */
+
   .heading {
     display: flex;
     align-items: center;
-    gap: 10px;                /* space between items */
+    gap: 10px;               
     padding: 4px 0;
     box-sizing: border-box;
     user-select: none;
@@ -70,13 +79,12 @@ body {
     width: 16px;
     height: 16px;
     background: #ffffff;
-    border-radius: 3px;      /* small rounding to match screenshot */
+    border-radius: 3px;    
     flex: 0 0 16px;
     box-sizing: border-box;
     border: 1px solid rgba(0,0,0,0.06);
   }
 
-  /* text: fixed bounding box 87x16 */
   .heading p {
     height: 16px;            
   }
@@ -89,7 +97,6 @@ body {
     color: var(--muted);
   }
 
-  /* style the SVG stroke to inherit color */
   .heading .info-icon i {
     width: 11px;
     height: 11px;
@@ -103,7 +110,203 @@ body {
   gap: 10px;
   align-items: center;
 }
+*,
+*::before,
+*::after { box-sizing: border-box; }
 
+.custom-select {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  user-select: none;
+  font-size: 12px;
+}
+
+.cs-trigger {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 6px;
+  min-width: 72px;
+  border-radius: 8px;
+  border: none;               
+  background: transparent;     
+  color: var(--fc7);
+  cursor: pointer;
+  text-align: left;
+}
+
+.cs-value {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #fff;
+  min-width: 16px;
+  line-height: 1;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.cs-caret {
+  width: 7px;   
+  height: 4px;
+  display: inline-block;
+  object-fit: contain;
+  opacity: 0.95;
+  margin-right: 20px
+
+}
+
+.cs-options {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  z-index: 999;
+  margin: 0;
+  padding: 0;                
+  list-style: none;
+  overflow: hidden;           
+  background: #383838;       
+  border: none;             
+  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+  border-radius: 0 0 8px 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* generic item */
+.cs-options li {
+  display: block;
+  cursor: pointer;
+  color: var(--fc7);
+  background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+/* hover/focus on items */
+.cs-options li:hover,
+.cs-options li.focused {
+  background: #444444;   
+  color: #fff;
+}
+
+/* selected when list is open */
+.cs-options li[aria-selected="true"] {
+  background: #334366;    
+  color: #fff;
+}
+
+/* open state */
+.custom-select[aria-expanded="true"] .cs-options {
+  display: block;
+}
+
+.native-select {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* keyboard focus ring */
+.custom-select:focus-visible .cs-trigger {
+  box-shadow: 0 0 0 3px rgba(38,91,209,0.06);
+  outline: none;
+}
+
+/* ------------------ Unit-specific sizing ------------------ */
+.custom-select[data-name="unit"] .cs-options {
+  left: 10px;
+  top: calc(100% + 6px);
+  width: 54px;         
+  min-width: 54px;
+  max-height: 98px;     
+  overflow-y: auto;
+  padding: 0;        
+  background: #383838;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Unit item: 54 x 18 */
+.custom-select[data-name="unit"] .cs-options li {
+  width: 54px;
+  height: 18px;
+  line-height: 18px;    
+  padding: 0 4px;     
+  text-align: center;   
+}
+
+.custom-select[data-name="unit"] .cs-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 4px;                       
+  width: 54px;                     
+  height: 18px;                   
+  padding: 0 4px;                  
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.custom-select[data-name="unit"] .cs-value {
+  display: inline-block;
+  width: 19px;        
+  height: 14px;     
+  line-height: 14px; 
+  padding: 0;        
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ------------------ DPI-specific sizing ------------------ */
+.custom-select[data-name="dpi"] .cs-options {
+  left: 15px;
+  top: calc(100% + 6px);
+  width: 67px;           
+  min-width: 67px;
+  max-height: 56px;    
+  overflow-y: auto;
+  padding: 0;
+  background: #383838;
+  border-radius: 0 0 8px 8px;
+}
+
+/* DPI item: 67 x 18 */
+.custom-select[data-name="dpi"] .cs-options li {
+  width: 67px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 6px;       
+  text-align: center;   
+}
+
+.custom-select[data-name="dpi"] .cs-trigger {
+  padding: 4px 6px;
+}
+.custom-select[data-name="dpi"] .cs-value {
+  padding: 3px 6px;
+  min-width: 67px;
+  width: 67px;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* ------------------ small responsive tweak ------------------ */
+@media (max-width: 520px) {
+  .custom-select[data-name="unit"] .cs-options { min-width: 54px; }
+  .custom-select[data-name="dpi"] .cs-options  { min-width: 67px; }
+}
+
+/* try end  */
 label {
   display: flex;
   gap: 8px;
@@ -138,9 +341,9 @@ input[type="text"] {
     align-items: center;  
   }
 
-  /* LEFT column: contains both Length and Width stacked */
+
   .left-col {
-    flex: 0 0 300px;           /* fixed base width for left group */
+    flex: 0 0 300px;        
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -157,6 +360,8 @@ input[type="text"] {
     width: 36px;
     color: var(--fc7);
     flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 100;
   }
 
   .size-group {
@@ -169,17 +374,26 @@ input[type="text"] {
   .size-input {
     width: 50px;             
     height: 18px;              
-    line-height: 18px;
+    /* line-height: 18px; */
     background: var(--fc4);    
-    border-radius: 4px;
-    outline: none;
-    box-sizing: border-box;
+    /* border-radius: 1px; */
+    /* outline: none;
+    box-sizing: border-box; */
   }
 
-  .size-input:focus {
-    box-shadow: 0 0 0 3px rgba(38,91,209,0.06);
-    border-color: rgba(38,91,209,0.22);
+  #len-left{
+    border-radius: 4px;
   }
+  #len-right{
+  border-radius: 4px;
+  }
+  #wid-left{
+    border-radius: 4px;
+  }
+  #wid-right{
+  border-radius: 4px;
+  }
+
 
   .swap-btn {
   width: auto;                 
@@ -200,6 +414,27 @@ input[type="text"] {
     margin-left: 0px;
     min-width: 20px;
     font-size: 10px;
+  }
+/* top-bottom-left-right-boxes */
+  #top{
+    width: 41px;
+    height: 18px;
+    border-radius: 4px;  
+  }
+  #bottom{
+    width: 41px;
+    height: 18px;
+    border-radius: 4px;
+  }
+  #left{
+    width: 41px;
+    height: 18px;
+    border-radius: 4px;
+  }
+  #right{
+    width: 41px;
+    height: 18px;
+    border-radius: 4px;
   }
 
   /* RIGHT column: contains top/bottom/left/right + link icon */
@@ -234,6 +469,8 @@ input[type="text"] {
     font-size: 13px;
     min-width: 36px;
     text-align: left;
+    font-size: 12px;
+    font-weight: 100;
   }
 
   .tb-input {
@@ -258,33 +495,72 @@ input[type="text"] {
 
   /* Link icon wrapper */
   .link-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;             
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+}
 
-  .link-btn {
-    width: 19px;          
-    height: 19px;            
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
+.link-btn {
+  width: 19px;
+  height: 19px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 4px;        /* small rounded edges */
+  transition: background 0.2s ease, filter 0.2s ease;
+}
+.link-btn:hover{
+  background: #282929;
+}
 
 .link-btn img {
   width: 15px;
   height: 15px;
-  filter: brightness(0) invert(1); 
+  filter: brightness(0) invert(1);
   transition: filter 0.2s ease;
 }
 
+/* ACTIVE / LINKED STATE */
+.link-btn.linked {
+  /* background: rgba(110, 145, 224, 0.15);  */
+ background: rgba(38, 91, 209, 0.3);
+}
+
 .link-btn.linked img {
-  filter: invert(48%) sepia(86%) saturate(3263%) hue-rotate(210deg) brightness(98%) contrast(97%);
+  filter: invert(61%) sepia(7%) saturate(3135%) hue-rotate(199deg) brightness(97%) contrast(92%);
+  /* This gives #6E91E0 */
+}
+.check-12{
+  width:12px;
+  height:12px;
+  border-radius:2px;
+  background:#383838;
+  border:none;
+  padding:0;
+  display:inline-block;
+
+  /* tick */
+  background-image:url("https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/tick_l2eheu.svg");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:8px 8px; /* tick size */
+  cursor:pointer;
+}
+
+/* Keyboard focus */
+.check-12:focus-visible{
+  outline:2px solid #7aa2ff; /* visible focus ring */
+  outline-offset:2px;
+}
+
+/* Optional: toggle show/hide tick using a class */
+.check-12:not(.is-checked){
+  background-image:none;
 }
 
   /* subtle labels / muted text like "px" */
@@ -362,10 +638,25 @@ input[type="text"] {
   transition: background 0.2s, border-color 0.2s;
 }
 
-.icon-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+/* .icon-btn:hover {
+  background: #6E91E0;
+} */
+#horizontalImgBtn {
+  background: rgba(38, 91, 209, 0.3); 
+  border-color: #182B5F;   
+}
+#horizontalImgBtn:hover {
+  background: #3E3E3E !important;
+  color: white;
+}
+#horizontalImgBtn:hover img {
+  filter: brightness(0) invert(1); /* 🖼️ turns icon white */
 }
 
+#horizontalImgBtn img {
+  filter: invert(61%) sepia(7%) saturate(3135%) hue-rotate(199deg) brightness(97%) contrast(92%);
+  /* blue icon (#6E91E0) */
+}
 .icon-btn[aria-pressed="true"] {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.2);
@@ -378,80 +669,91 @@ input[type="text"] {
 
 /* right pannel */
   /* Panel wrapper for the right panel area */
-  .right-panel {
-    width: 473px;                    
-    background: transparent;
-    color: var(--fc7);
-    font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
-    box-sizing: border-box;
-    margin-left: 25px;
-  }
+ .right-panel {
+  width: 505px;
+  background: transparent;
+  color: var(--fc7);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  box-sizing: border-box;
+  margin-left: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  border-radius: 12px;                        
+  padding: 8px 0;                             
+  backdrop-filter: blur(2px);                
+}
 
-  /* 1) Top row: tabs + edit icon */
-  .top-row {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 12px;
-  }
 
-  .tabs {
-    display:flex;
-    gap:8px;
-    align-items:center;
-  }
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  position: relative;
+}
 
-  .tab-your {
-    width:84px;
-    height:26px;
-    border-radius:12px;
-    background: rgba(255,255,255,0.03);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    color:var(--fc7);
-    border:1px solid rgba(255,255,255,0.02);
-    cursor:pointer;
-    padding:0 8px;
-  }
+/* underline line below the tabs row */
+.top-row::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
 
-  .tab-all {
-    width:84px;
-    height:30px;
-    border-radius:12px;
-    background: transparent;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    color:var(--fc5);
-    border:1px solid transparent;
-    cursor:pointer;
-    padding:0 8px;
-  }
+/* Tabs container */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .tab-your.active, .tab-all.active {
-    background: rgba(255,255,255,0.04);
-    color: var(--fc7);
-    border-color: rgba(255,255,255,0.04);
-  }
+/* Default tab styling */
+.tab-your,
+.tab-all {
+  width: 84px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--fc7);
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
 
-  /* small edit icon with marked border */
-  .edit-btn {
-    margin-left: auto;
-    width:34px;
-    height:34px;
-    border-radius:8px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border:1px solid rgba(255,255,255,0.04);
-    background: rgba(255,255,255,0.02);
-    cursor:pointer;
-  }
+/* Active tab */
+.tab-your.active,
+.tab-all.active {
+  background: #383838;    /* dark gray background */
+  color: #ffffff;
+}
 
-  .edit-btn svg { width:18px; height:18px; stroke:var(--fc6); fill:none; stroke-width:1.25; }
+/* Edit icon */
+.edit-btn {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.edit-btn img {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
 
   /* 2) Filter row + presets area */
   .filter-area {
@@ -475,7 +777,7 @@ input[type="text"] {
     width:29px;
     height:22px;
     border-radius:8px;
-    background: var(--fc8);
+    background: rgba(38, 91, 209, 0.3);
     color: #fff;
     display:inline-flex;
     align-items:center;
@@ -509,7 +811,7 @@ input[type="text"] {
   /* banner row */
   .banners {
     display:flex;
-    gap:14px;
+    gap:4px;
     align-items:center;
     flex-wrap:wrap;
   }
@@ -527,34 +829,64 @@ input[type="text"] {
     justify-content:center;
     cursor:pointer;
     box-sizing:border-box;
-    transition: box-shadow .12s, transform .08s;
   }
 
-  .banner:hover {
-    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-    transform: translateY(-2px);
-  }
-
-  /* "like" heart at top-left of banner (small) */
+.banner .heart{
+  position:absolute;
+  top:6px;
+  right:6px;       
+  left:auto;
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.10);
+}
+.banner:hover .heart,
+.banner:focus-visible .heart,
+.banner.liked .heart {      
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform: translateY(0);
+}
+.banner.selected .heart {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+@media (hover: none) {
   .banner .heart {
-    position:absolute;
-    top:6px;
-    left:6px;
-    width:18px;
-    height:18px;
-    border-radius:6px;
-    background: rgba(255,255,255,0.02);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    border:1px solid rgba(255,255,255,0.02);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
   }
+}
 
-  .banner .heart svg { width:12px; height:12px; stroke:var(--fc6); fill:none; stroke-width:1.2; }
+.banner .heart svg {
+  width:12px; height:12px;
+  stroke: var(--fc6);
+  fill: none;
+  stroke-width: 1.2;
+}
 
-  .banner.liked .heart { background: var(--fc8); border-color: rgba(0,0,0,0.15); }
-  .banner.liked .heart svg { stroke: #fff; fill: #fff; }
+.banner.liked .heart {
+  background: transparent;               /* no pill BG like your shot */
+  border-color: transparent;             /* remove border outline */
+}
+.banner.liked .heart svg {
+  stroke: #fff;
+  fill: #fff;                            /* solid heart */
+}
 
   /* label under banner */
   .banner-label {
@@ -564,16 +896,14 @@ input[type="text"] {
     text-align:center;
   }
 
-  /* containing each banner block (card + label) */
   .banner-block {
     display:flex;
     flex-direction:column;
     align-items:center;
     gap:6px;
-    width:72px;  /* enough space for label */
+    width:72px; 
   }
 
-  /* marked border link: a small chain icon with border (to the right inside filter-area) */
   .chain-mark {
     margin-left:auto;
     display:inline-flex;
@@ -582,7 +912,7 @@ input[type="text"] {
     width:28px;
     height:28px;
     border-radius:8px;
-    border:1px dashed rgba(255,255,255,0.06);  /* marked dashed border */
+    border:1px dashed rgba(255,255,255,0.06); 
     color:var(--fc6);
     background: rgba(255,255,255,0.01);
     cursor:pointer;
@@ -590,248 +920,517 @@ input[type="text"] {
   .chain-mark svg { width:16px; height:16px; stroke:var(--fc6); fill:none; stroke-width:1.2; }
 
   /* 3) Arrow area (centered below) */
-  .arrow-wrap {
-    margin-top:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
+.arrow-wrap {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .arrow {
-    width:20px;
-    height:20px;
-    border-radius:8px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    background: rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  .arrow svg { width:14px; height:14px; stroke:var(--fc6); fill:none; stroke-width:1.25; }
+.arrow {
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
-  /* helper - hidden state when nothing to show */
-  .hidden { display:none !important; }
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
 
-  /* small responsive tweak */
-  @media (max-width:520px){
-    .right-panel { width:100%; }
-    .filters { gap:8px; }
-    .banners { gap:10px; }
-  }
-  .arrow i{
-    width:20px;
-    height:20px;   /* adjust size */
-  cursor: pointer;     /* makes it clickable */
-  color: white; 
-  margin-bottom: 9px;    
-  margin-right: 370px;   /* or any color you want */
+.arrow-icon {
+  position: fixed;
+  width: 11px;
+  height: 6px;
+  transition: transform 0.2s ease;
+  margin-bottom: 19px;
+  margin-right: 410px;
+}
 
-  }
+/* Optional: rotate the arrow when expanded */
+.arrow[aria-expanded="true"] .arrow-icon {
+  transform: rotate(180deg);
+}
+/* rename model : by button save as preset */
+
+.rename-overlay {
+  position: absolute;  
+  inset: 0;
+  display: flex;
+  align-items: flex-start;     
+  justify-content: center;    
+  padding-top: 26px;            
+  background: #383838;
+  z-index: 1000;
+}
+.rename-overlay[hidden]{ display:none !important; }
+
+.rename-modal {
+  width: 237px;
+  height: 78px;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  background: #2C2C2C;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+.rename-inputwrap{
+  position: relative;
+  width: 227px;
+  height: 32px;
+  margin-top: 8px;
+  background: #383838;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.03);
+  overflow: hidden;
+}
+
+
+.rename-input{
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  padding: 0 68px 0 10px;  
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.rename-input::placeholder { color: #bdbdbd; opacity: 0.8; }
+
+.rename-btn{
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: #265BD1;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(38,91,209,0.18);
+  line-height: 24px;
+  text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+}
 </style>
 </head>
 <body>
-<div class="container">
-        <div class="left-pannel">
-            <div class="heading" role="heading" aria-level="2" aria-label="Unit Conversion heading">
-                <div class="whitebox" aria-hidden="true"></div>
-                <p>Unit Conversion</p>
-                <span class="info-icon" title="More info" aria-hidden="false">
-                <!-- simple info / circle icon -->
-                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/info_detkgl.svg" alt="Info Icon" width="11" height="11" />
-                </span>
+ <div class="container">
+
+    <!-- Left Panel -->
+    <div class="left-pannel">
+      <div class="heading" role="heading" aria-level="2" aria-label="Unit Conversion heading">
+        <div class="whitebox" aria-hidden="true"></div>
+        <p>Unit Conversion</p>
+        <span class="info-icon" title="More info" aria-hidden="false">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/info_detkgl.svg" alt="Info Icon" width="11" height="11" />
+        </span>
+      </div>
+
+      <div class="modes">
+        <!-- Unit / DPI / Add Bleed -->
+        <div class="row" style="margin-top:4px;">
+
+          <!-- Unit -->
+          <label class="cs-label">Unit
+            <div class="custom-select" data-name="unit" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-owns="unit-options" aria-label="Unit">
+              <button type="button" class="cs-trigger" aria-labelledby="unit-selected" title="Open unit list">
+                <span id="unit-selected" class="cs-value">MM</span>
+                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/down_chevron_bwmgi4.svg" alt="" class="cs-caret" aria-hidden="true" />
+              </button>
+              <ul id="unit-options" class="cs-options" role="listbox" aria-hidden="true">
+                <li role="option" data-value="MM" aria-selected="true">MM</li>
+                <li role="option" data-value="CM">CM</li>
+                <li role="option" data-value="M">Meter</li>
+                <li role="option" data-value="IN">Inch</li>
+                <li role="option" data-value="FT">Feet</li>
+              </ul>
+              <select id="unitSelect" name="unit" class="native-select" aria-hidden="true" tabindex="-1">
+                <option value="MM" selected>MM</option>
+                <option value="CM">CM</option>
+                <option value="M">Meter</option>
+                <option value="IN">Inch</option>
+                <option value="FT">Feet</option>
+              </select>
             </div>
-            <div class="modes">
-                <!-- Unit / DPI / Add Bleed -->
-                <div class="row" style="margin-top:4px;">
-                    <label>Unit
-                        <select id="unitSelect" class="small">
-                        <option value="MM">MM</option>
-                        <option value="CM">CM</option>
-                        <option value="M">Meter</option>
-                        <option value="IN">Inch</option>
-                        <option value="FT">Feet</option>
-                        </select>
-                    </label>
+          </label>
 
-                    <label>DPI
-                        <select id="dpiSelect" class="small">
-                        <option value="72">72 DPI</option>
-                        <option value="150">150 DPI</option>
-                        <option value="300">300 DPI</option>
-                        </select>
-                    </label>
-
-                    <label style="margin-left:48px; display:flex; align-items:center;">
-                        <input id="addBleed" type="checkbox" /> <span style="margin-left:-2px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
-                    </label>
-                </div>
+          <!-- DPI -->
+          <label class="cs-label">DPI
+            <div class="custom-select" data-name="dpi" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-owns="dpi-options" aria-label="DPI">
+              <button type="button" class="cs-trigger" aria-labelledby="dpi-selected" title="Open DPI list">
+                <span id="dpi-selected" class="cs-value">72 DPI</span>
+                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/down_chevron_bwmgi4.svg" alt="" class="cs-caret" aria-hidden="true" />
+              </button>
+              <ul id="dpi-options" class="cs-options" role="listbox" aria-hidden="true">
+                <li role="option" data-value="72" aria-selected="true">72 DPI</li>
+                <li role="option" data-value="150">150 DPI</li>
+                <li role="option" data-value="300">300 DPI</li>
+              </ul>
+              <select id="dpiSelect" name="dpi" class="native-select" aria-hidden="true" tabindex="-1">
+                <option value="72" selected>72 DPI</option>
+                <option value="150">150 DPI</option>
+                <option value="300">300 DPI</option>
+              </select>
             </div>
-            <div class="input">
-                        <div class="panel" role="region" aria-label="Unit panel (Length/Width and Bleed)">
-                        <!-- LEFT column -->
-                        <div class="left-col" aria-label="Length and width group">
-                            <!-- Length field -->
-                            <div class="field" role="group" aria-label="Length">
-                            <div class="field-label">Length</div>
+          </label>
 
-                            <div class="size-group">
-                                <input id="len-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length left" />
-                                <button class="swap-btn" id="swapLen" title="Swap length values" aria-label="Swap length">⇄</button>
-                                <input id="len-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length right" />
-                                <div class="px-text">px</div>
-                            </div>
-                           </div>
-
-                            <!-- Width field -->
-                            <div class="field" role="group" aria-label="Width">
-                            <div class="field-label">Width</div>
-
-                            <div class="size-group">
-                                <input id="wid-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width left" />
-                                <button class="swap-btn" id="swapWid" title="Swap width values" aria-label="Swap width">⇄</button>
-                                <input id="wid-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width right" />
-                                <div class="px-text">px</div>
-                            </div>
-                            </div>
-                        </div>
-
-                        <!-- RIGHT column -->
-                        <div class="right-col" aria-label="Top bottom left right group">
-                            <div class="tb-grid" role="group" aria-label="Top bottom left right">
-                            <div class="tb-cell">
-    
-                                <input id="top" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Top" />
-                                <div class="tb-label">Top</div>
-                            </div>
-
-                            <div class="tb-cell">
-                                
-                                <input id="bottom" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Bottom" />
-                                <div class="tb-label">Bottom</div>
-                            </div>
-
-                            <div class="tb-cell">
-                                
-                                <input id="left" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Left" />
-                                <div class="tb-label">Left</div>
-                            </div>
-
-                            <div class="tb-cell">
-                                
-                                
-                                <input id="right" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Right" />
-                                <div class="tb-label">Right</div>
-                            </div>
-                            </div>
-
-                            <div class="link-wrap">
-                            <button id="linkBtn" class="link-btn" aria-pressed="false" title="Toggle link (make values same)">
-                                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/link_icon_whcrae.svg" 
-                                    alt="Link Icon" 
-                                    width="6"
-                                    height="6">
-                            </button>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-
-            <div class="actions">
-                <button id="exportBtn" class="btn">Create a Frame</button>
-                <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
-                <button id="orientationBtn" class="btn ghost">Orientation</button>
-                <button id="horizontalImgBtn" class="icon-btn" aria-pressed="false" title="Horizontal Image">
-                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/horizontal_image_bomcid.svg" alt="Horizontal Image Icon" width="19" height="19">
-                </button>
-                <button id="landscapeBtn" class="icon-btn" aria-pressed="false" title="Landscape">
-                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/landscape_nqp4qs.svg" alt="Landscape Icon" width="19" height="19">
-                </button>
-            </div>
+          <!-- Add Bleed -->
+          <label style="margin-left:18px; display:flex; align-items:center;">
+            <img src="Bleed icon.svg" alt="Bleed Icon" width="8" height="8">
+            <span style="margin-left:-2px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
+            <button class="check-12" aria-pressed="true" aria-label="Toggle check"></button>
+          </label>
         </div>
-        <!-- right pannel -->
-            <div class="right-panel" role="complementary" aria-label="Right panel - presets">
-                <!-- 1) Top row -->
-                <div class="top-row">
-                <div class="tabs" role="tablist" aria-label="Preset tabs">
-                    <div class="tab-your active" id="tabYour">Your Presets</div>
-                    <div class="tab-all" id="tabAll">All Presets</div>
-                </div>
-                <button class="edit-btn" id="editBtn" title="Edit presets" aria-label="Edit presets">
-                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/edit_icon_tzvijx.svg" alt="Edit Icon" width="10" height="10">
-                </button>
-                </div>
+      </div>
 
-                <!-- 2) Filter area + banners -->
-                <div class="filter-area">
-                   <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="filters" role="tablist" aria-label="Filters">
-                    <button class="filter-all active" id="btnAll" title="Show all">All</button>
-                    <button class="filter-fav" id="btnFav" title="Show favorites">Favorites</button>
-                    </div>
+      <!-- Input Panel -->
+      <div class="input">
+        <div class="panel" role="region" aria-label="Unit panel (Length/Width and Bleed)">
 
-                    
-                </div>
+          <!-- LEFT column -->
+          <div class="left-col" aria-label="Length and width group">
 
-                <!-- banners row -->
-                <div class="banners" id="bannersRow" aria-live="polite">
-                    <!-- sample banner blocks - you can add more or generate dynamically -->
-                    <div class="banner-block" data-id="b1">
-                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Banner">
-                        <div class="heart" data-action="toggle-like" title="Like">
-                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </div>
-                    <div class="banner-label">Banner</div>
-                    </div>
-
-                    <div class="banner-block" data-id="b2">
-                    <div class="banner" role="button" tabindex="0" aria-label="Banner - V-Card">
-                        <div class="heart" data-action="toggle-like" title="Like">
-                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </div>
-                    <div class="banner-label">V-Card</div>
-                    </div>
-
-                    <div class="banner-block" data-id="b3">
-                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Standee">
-                        <div class="heart" data-action="toggle-like" title="Like">
-                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </div>
-                    <div class="banner-label">Standee</div>
-                    </div>
-
-                    <div class="banner-block" data-id="b4">
-                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Bi fold">
-                        <div class="heart" data-action="toggle-like" title="Like">
-                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </div>
-                    <div class="banner-label">Bi fold</div>
-                    </div>
-
-                    <div class="banner-block" data-id="b5">
-                    <div class="banner" role="button" tabindex="0" aria-label="Banner - Brochure">
-                        <div class="heart" data-action="toggle-like" title="Like">
-                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </div>
-                    <div class="banner-label">Brochure</div>
-                    </div>
-                </div>
-                </div>
-
-            <!-- 3) Arrow below -->
-                <div class="arrow-wrap">
-                <div class="arrow" title="Expand / collapse">
-                    <!-- <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8l-4 4h8z" stroke-linecap="round" stroke-linejoin="round"/></svg> -->
-                     <i class="fa-solid fa-chevron-up"></i>
-                </div>
+            <!-- Length field -->
+            <div class="field" role="group" aria-label="Length">
+              <div class="field-label">Length</div>
+              <div class="size-group">
+                <input id="len-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length left" />
+                <button class="swap-btn" id="swapLen" title="Swap length values" aria-label="Swap length">⇄</button>
+                <input id="len-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Length right" />
+                <div class="px-text">px</div>
+              </div>
             </div>
+
+            <!-- Width field -->
+            <div class="field" role="group" aria-label="Width">
+              <div class="field-label">Width</div>
+              <div class="size-group">
+                <input id="wid-left" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width left" />
+                <button class="swap-btn" id="swapWid" title="Swap width values" aria-label="Swap width">⇄</button>
+                <input id="wid-right" class="size-input" type="number" inputmode="numeric" min="0" aria-label="Width right" />
+                <div class="px-text">px</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT column -->
+          <div class="right-col" aria-label="Top bottom left right group">
+            <div class="tb-grid" role="group" aria-label="Top bottom left right">
+
+              <div class="tb-cell">
+                <input id="top" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Top" />
+                <div class="tb-label">Top</div>
+              </div>
+
+              <div class="tb-cell">
+                <input id="bottom" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Bottom" />
+                <div class="tb-label">Bottom</div>
+              </div>
+
+              <div class="tb-cell">
+                <input id="left" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Left" />
+                <div class="tb-label">Left</div>
+              </div>
+
+              <div class="tb-cell">
+                <input id="right" class="tb-input tb-sync" type="number" inputmode="numeric" min="0" aria-label="Right" />
+                <div class="tb-label">Right</div>
+              </div>
+
+            </div>
+
+            <div class="link-wrap">
+              <button id="linkBtn" class="link-btn" aria-pressed="false" title="Toggle link (make values same)">
+                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/link_icon_whcrae.svg" alt="Link Icon" width="6" height="6">
+              </button>
+            </div>
+          </div>
+
         </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button id="exportBtn" class="btn">Create a Frame</button>
+        <button id="savePresetBtn" class="btn ghost">Save As Preset</button>
+        <button id="orientationBtn" class="btn ghost">Orientation</button>
+        <button id="horizontalImgBtn" class="icon-btn" aria-pressed="false" title="Horizontal Image">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/horizontal_image_bomcid.svg" alt="Horizontal Image Icon" width="19" height="19">
+        </button>
+        <button id="landscapeBtn" class="icon-btn" aria-pressed="false" title="Landscape">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/landscape_nqp4qs.svg" alt="Landscape Icon" width="19" height="19">
+        </button>
+      </div>
     </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel" role="complementary" aria-label="Right panel - presets">
+
+      <!-- 1) Top row -->
+      <div class="top-row">
+        <div class="tabs" role="tablist" aria-label="Preset tabs">
+          <div class="tab-your active" id="tabYour">Your Presets</div>
+          <div class="tab-all" id="tabAll">All Presets</div>
+        </div>
+        <button class="edit-btn" id="editBtn" title="Edit presets" aria-label="Edit presets">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420877/edit_icon_tzvijx.svg" alt="Edit Icon" width="10" height="10">
+        </button>
+      </div>
+
+      <!-- 2) Filter area + banners -->
+      <div class="filter-area">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="filters" role="tablist" aria-label="Filters">
+            <button class="filter-all active" id="btnAll" title="Show all">All</button>
+            <button class="filter-fav" id="btnFav" title="Show favorites">Favorites</button>
+          </div>
+        </div>
+
+        <!-- banners row -->
+        <div class="banners" id="bannersRow" aria-live="polite">
+
+          <div class="banner-block" data-id="b1">
+            <div class="banner" role="button" tabindex="0" aria-label="Banner - Banner">
+              <div class="heart" data-action="toggle-like" title="Like">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="banner-label">Banner</div>
+          </div>
+
+          <div class="banner-block" data-id="b2">
+            <div class="banner" role="button" tabindex="0" aria-label="Banner - V-Card">
+              <div class="heart" data-action="toggle-like" title="Like">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="banner-label">V-Card</div>
+          </div>
+
+          <div class="banner-block" data-id="b3">
+            <div class="banner" role="button" tabindex="0" aria-label="Banner - Standee">
+              <div class="heart" data-action="toggle-like" title="Like">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="banner-label">Standee</div>
+          </div>
+
+          <div class="banner-block" data-id="b4">
+            <div class="banner" role="button" tabindex="0" aria-label="Banner - Bi fold">
+              <div class="heart" data-action="toggle-like" title="Like">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="banner-label">Bi fold</div>
+          </div>
+
+          <div class="banner-block" data-id="b5">
+            <div class="banner" role="button" tabindex="0" aria-label="Banner - Brochure">
+              <div class="heart" data-action="toggle-like" title="Like">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="banner-label">Brochure</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3) Arrow below -->
+      <div class="arrow-wrap">
+        <div class="arrow" title="Expand / collapse" aria-expanded="false">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420876/upward_chevron_kr8sr9.svg" alt="Arrow Icon" class="arrow-icon">
+        </div>
+      </div>
+
+    </div>
+    <div id="renameOverlay" class="rename-overlay" hidden>
+            <div class="rename-modal" role="dialog" aria-modal="true" aria-labelledby="renameTitle">
+                <div id="renameTitle" class="rename-title">Name your Preset</div>
+
+                <div class="rename-inputwrap">
+                <input id="presetName" type="text" class="rename-input" aria-label="Preset name" />
+                <button id="renameConfirm" class="rename-btn" type="button">Rename</button>
+                </div>
+            </div>
+        </div>
+  </div>
 <script>
+// bleed tick icon
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('check-12')) {
+      e.target.classList.toggle('is-checked');
+      e.target.setAttribute('aria-pressed', e.target.classList.contains('is-checked'));
+    }
+  });
+
+
+/* Custom select implementation (keyboard accessible) */
+(function () {
+  function initCustomSelect(root) {
+    const trigger = root.querySelector('.cs-trigger');
+    const optionsList = root.querySelector('.cs-options');
+    const native = root.querySelector('.native-select');
+    const valueSpan = root.querySelector('.cs-value');
+    const caret = root.querySelector('.cs-caret');
+    const options = Array.from(optionsList.querySelectorAll('li'));
+    let open = false;
+    let focusedIndex = options.findIndex(o => o.getAttribute('aria-selected') === 'true');
+
+    // set initial visible text from native select (keeps sync)
+    if (native) {
+      const nv = native.options[native.selectedIndex];
+      if (nv) {
+        valueSpan.textContent = nv.textContent.trim();
+        // mark aria-selected on matching li
+        const idx = options.findIndex(li => li.getAttribute('data-value') === nv.value);
+        if (idx >= 0) {
+          options.forEach((li,i) => li.setAttribute('aria-selected', i===idx ? 'true' : 'false'));
+          focusedIndex = idx;
+        }
+      }
+    }
+
+    function openList() {
+      root.setAttribute('aria-expanded', 'true');
+      optionsList.setAttribute('aria-hidden', 'false');
+      open = true;
+      // ensure selected item visible and highlighted
+      const selIndex = options.findIndex(li => li.getAttribute('aria-selected') === 'true');
+      const idx = selIndex >= 0 ? selIndex : 0;
+      setFocused(idx);
+      // scroll into view for selected
+      options[idx].scrollIntoView({ block: 'nearest' });
+    }
+    function closeList() {
+      root.setAttribute('aria-expanded', 'false');
+      optionsList.setAttribute('aria-hidden', 'true');
+      open = false;
+      clearFocused();
+    }
+
+    function selectIndex(i) {
+      const chosen = options[i];
+      if (!chosen) return;
+      const v = chosen.getAttribute('data-value');
+      const text = chosen.textContent.trim();
+      valueSpan.textContent = text;
+      // update native select
+      if (native) {
+        native.value = v;
+        native.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      options.forEach((li, idx) => li.setAttribute('aria-selected', idx === i ? 'true' : 'false'));
+      focusedIndex = i;
+    }
+
+    function setFocused(i) {
+      options.forEach(li => li.classList.remove('focused'));
+      const el = options[i];
+      if (el) {
+        el.classList.add('focused');
+        el.scrollIntoView({ block: 'nearest' });
+        focusedIndex = i;
+      }
+    }
+    function clearFocused() {
+      options.forEach(li => li.classList.remove('focused'));
+    }
+
+    // toggle by clicking trigger (includes caret image)
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (open) closeList();
+      else openList();
+    });
+
+    // click option
+    optionsList.addEventListener('click', (e) => {
+      const li = e.target.closest('li');
+      if (!li) return;
+      const idx = options.indexOf(li);
+      selectIndex(idx);
+      closeList();
+      trigger.focus();
+    });
+
+    // keyboard navigation
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!open) openList();
+        else setFocused(Math.min(focusedIndex + 1, options.length - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!open) openList();
+        else setFocused(Math.max(focusedIndex - 1, 0));
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (!open) openList();
+        else {
+          selectIndex(focusedIndex);
+          closeList();
+        }
+      } else if (e.key === 'Escape') {
+        if (open) {
+          e.preventDefault();
+          closeList();
+        }
+      }
+    });
+
+    // follow mouse moves: focus the item under pointer
+    options.forEach((li, idx) => {
+      li.addEventListener('mousemove', () => setFocused(idx));
+    });
+
+    // close on outside click
+    document.addEventListener('click', (ev) => {
+      if (!root.contains(ev.target)) closeList();
+    });
+  }
+
+  // init all widgets once DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.custom-select').forEach(initCustomSelect);
+  });
+})();
+
 /* Link toggle behavior for the four tb inputs */
 (function(){
   const linkBtn = document.getElementById('linkBtn');
@@ -900,7 +1499,7 @@ input[type="text"] {
   setLinked(false);
 })();
 
-/* JS: like toggle + filters (All / Favorites) + simple UI states */
+/*  like toggle + filters (All / Favorites) + simple UI states */
 (function(){
   const bannersRow = document.getElementById('bannersRow');
   const bannerBlocks = Array.from(bannersRow.querySelectorAll('.banner-block'));
@@ -969,6 +1568,47 @@ input[type="text"] {
   // initial state: All active
   btnAll.classList.add('active');
 })();
+// rename your preset
+  (function () {
+    const overlay = document.getElementById('renameOverlay');
+    const openBtn = document.getElementById('savePresetBtn');
+    const input   = document.getElementById('presetName');
+    const confirm = document.getElementById('renameConfirm');
+
+    function openModal() {
+      overlay.hidden = false;
+      // focus input after paint
+      requestAnimationFrame(() => input.focus());
+    }
+
+    function closeModal() {
+      overlay.hidden = true;
+      openBtn && openBtn.focus();
+    }
+
+    // Open on click
+    openBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+
+    // Click outside to close
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    // Escape to close
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.hidden && e.key === 'Escape') closeModal();
+    });
+
+    // Confirm handler (replace with your save logic)
+    confirm.addEventListener('click', () => {
+      const name = input.value.trim();
+      // TODO: do something with `name`
+      closeModal();
+    });
+  })();
 </script>
 </body>
 </html>

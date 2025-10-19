@@ -6,4 +6,5 @@
   "ui": "ui.html",
   "enableProposedApi": false,
   "editorType": ["figma", "figjam"]
+
 }
