@@ -49,13 +49,17 @@ body {
 }
 .container{
     width: 1033px;
-    height: 240px;
-    background: linear-gradient(180deg, var(--panel-2), #222);
-    border: 1px solid var(--card-border);
+    height: 220px;
+    background: #2C2C2C;
     padding: var(--pad);
     box-sizing: border-box;
-    border-radius: var(--radius);
+    /* border-radius: var(--radius); */
     display: flex;
+    position: relative; 
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 
 }
 
@@ -65,13 +69,18 @@ body {
     
 }
 
-  .heading {
+   .heading {
+    width: 200px;
+    height: 17px;
     display: flex;
     align-items: center;
-    gap: 10px;               
-    padding: 4px 0;
+    /* gap: 0px;                */
+    /* padding: 4px 0; */
     box-sizing: border-box;
     user-select: none;
+    display: flex;
+    margin-right: 2px;
+    
   }
 
   /* white square box (16x16) */
@@ -83,10 +92,12 @@ body {
     flex: 0 0 16px;
     box-sizing: border-box;
     border: 1px solid rgba(0,0,0,0.06);
+    margin-left: 4px;
   }
 
   .heading p {
-    height: 16px;            
+    font-size: 12px;    
+    margin-left: 4px;        
   }
   .heading .info-icon {
     width: 11px;            
@@ -95,6 +106,7 @@ body {
     flex: 0 0 11px;
     box-sizing: border-box;
     color: var(--muted);
+    margin-left: 6px;
   }
 
   .heading .info-icon i {
@@ -105,6 +117,14 @@ body {
     fill: none;
     color: white;
   }
+  .heading .left-icon{
+    width: 17px;
+    height: 17px;
+    display: flex;             
+    align-items: center;         
+    justify-content: flex-start; 
+  
+  }
 .row {
   display: flex;
   gap: 10px;
@@ -113,7 +133,12 @@ body {
 *,
 *::before,
 *::after { box-sizing: border-box; }
-
+.modes{
+  margin-top: 16px;
+}
+.cs-label{
+  font-size: 12px;
+}
 .custom-select {
   display: inline-block;
   position: relative;
@@ -125,25 +150,39 @@ body {
 .cs-trigger {
   display: inline-flex;
   align-items: center;
-  padding: 4px 6px;
-  min-width: 72px;
   border-radius: 8px;
   border: none;               
   background: transparent;     
   color: var(--fc7);
   cursor: pointer;
   text-align: left;
+  background: var(--fc3);
 }
-
+#unit-selected{
+  margin-left: 8px;
+}
+#unit-selected-btn{
+  width: 54px;
+  height: 20px;
+  background: var(--fc3);
+  border-radius: 4px;
+}
+#dpi-selected-btn{
+  width: 67px;
+  height: 20px;
+  border-radius: 4px;
+}
 .cs-value {
+  font-size: 11px;
   display: inline-block;
   padding: 2px 6px;
   border-radius: 6px;
   color: #fff;
-  min-width: 16px;
+  /* min-width: 16px; */
   line-height: 1;
   text-align: center;
   box-sizing: border-box;
+  text-align: left;
 }
 
 .cs-caret {
@@ -152,11 +191,13 @@ body {
   display: inline-block;
   object-fit: contain;
   opacity: 0.95;
-  margin-right: 20px
+  /* margin-right: 20px */
 
 }
 
+
 .cs-options {
+
   display: none;
   position: absolute;
   left: 0;
@@ -221,7 +262,7 @@ body {
 
 /* ------------------ Unit-specific sizing ------------------ */
 .custom-select[data-name="unit"] .cs-options {
-  left: 10px;
+  /* left: 10px; */
   top: calc(100% + 6px);
   width: 54px;         
   min-width: 54px;
@@ -244,11 +285,11 @@ body {
 .custom-select[data-name="unit"] .cs-trigger {
   display: flex;
   align-items: center;
-  justify-content: space-between; 
-  gap: 4px;                       
+  /* justify-content: space-between;  */
+  gap: 8px;                       
   width: 54px;                     
   height: 18px;                   
-  padding: 0 4px;                  
+  /* padding: 0 4px;                   */
   border-radius: 8px;
   border: none;
   background: transparent;
@@ -269,7 +310,7 @@ body {
 
 /* ------------------ DPI-specific sizing ------------------ */
 .custom-select[data-name="dpi"] .cs-options {
-  left: 15px;
+  /* left: 15px; */
   top: calc(100% + 6px);
   width: 67px;           
   min-width: 67px;
@@ -294,10 +335,11 @@ body {
 }
 .custom-select[data-name="dpi"] .cs-value {
   padding: 3px 6px;
-  min-width: 67px;
-  width: 67px;
+  /* min-width: 67px; */
+  /* width: 67px; */
   border-radius: 6px;
   box-sizing: border-box;
+  
 }
 
 /* ------------------ small responsive tweak ------------------ */
@@ -330,8 +372,9 @@ input[type="text"] {
 
 /* input boxes CSS  */
   .panel {
+    margin-top : 16px;
     width: 473px;
-    padding: 18px;
+    /* padding: 18px; */
     box-sizing: border-box;
     color: var(--fc7);
     font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
@@ -361,7 +404,7 @@ input[type="text"] {
     color: var(--fc7);
     flex-shrink: 0;
     font-size: 12px;
-    font-weight: 100;
+    /* font-weight: 100; */
   }
 
   .size-group {
@@ -375,23 +418,25 @@ input[type="text"] {
     width: 50px;             
     height: 18px;              
     /* line-height: 18px; */
-    background: var(--fc4);    
-    /* border-radius: 1px; */
-    /* outline: none;
-    box-sizing: border-box; */
+    background: var(--fc3);    
+
   }
 
   #len-left{
     border-radius: 4px;
+    background: var(--fc3);    
   }
   #len-right{
   border-radius: 4px;
+  background: var(--fc3);    
   }
   #wid-left{
     border-radius: 4px;
+    background: var(--fc3);    
   }
   #wid-right{
   border-radius: 4px;
+  background: var(--fc3);    
   }
 
 
@@ -410,7 +455,7 @@ input[type="text"] {
   }
 
   .px-text {
-    color: var(--fc5);
+    color: var(--fc7);
     margin-left: 0px;
     min-width: 20px;
     font-size: 10px;
@@ -420,21 +465,25 @@ input[type="text"] {
     width: 41px;
     height: 18px;
     border-radius: 4px;  
+    background: var(--fc3);    
   }
   #bottom{
     width: 41px;
     height: 18px;
     border-radius: 4px;
+    background: var(--fc3);    
   }
   #left{
     width: 41px;
     height: 18px;
     border-radius: 4px;
+    background: var(--fc3);    
   }
   #right{
     width: 41px;
     height: 18px;
     border-radius: 4px;
+    background: var(--fc3);    
   }
 
   /* RIGHT column: contains top/bottom/left/right + link icon */
@@ -445,7 +494,7 @@ input[type="text"] {
     justify-content: flex-end;
     gap: 8px;
     position: absolute;
-    margin-left: 248px;
+    margin-left: 238px;
     
   }
 
@@ -466,11 +515,10 @@ input[type="text"] {
 
   .tb-label {
     color: var(--fc7);
-    font-size: 13px;
     min-width: 36px;
     text-align: left;
-    font-size: 12px;
-    font-weight: 100;
+    font-size: 11px;
+    /* font-weight: 100; */
   }
 
   .tb-input {
@@ -498,10 +546,13 @@ input[type="text"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
+  /* width: 28px; */
+  width: 19px;
+  height: 19px;
 }
 
 .link-btn {
+  margin-left: 8px;
   width: 19px;
   height: 19px;
   border: none;
@@ -510,7 +561,7 @@ input[type="text"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  /* padding: 0; */
   border-radius: 4px;        /* small rounded edges */
   transition: background 0.2s ease, filter 0.2s ease;
 }
@@ -519,8 +570,8 @@ input[type="text"] {
 }
 
 .link-btn img {
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   filter: brightness(0) invert(1);
   transition: filter 0.2s ease;
 }
@@ -587,7 +638,7 @@ input[type="text"] {
 .actions {
   display: flex;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 23px;
   align-items: center;
 }
 
@@ -620,8 +671,11 @@ input[type="text"] {
 #orientationBtn {
   margin-left: 50px;
   width: auto;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   height: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--fc7);
 }
 
 /* icon buttons */
@@ -670,20 +724,27 @@ input[type="text"] {
 /* right pannel */
   /* Panel wrapper for the right panel area */
  .right-panel {
-  width: 505px;
-  background: transparent;
+  margin-top: 10px;
+  /* margin-right: 10px; */
+  margin-bottom: 19px;
+  margin-left: 42px;
+  width: 560px;
+  height: 171px;
+  /* background: transparent; */
+  background: #2C2C2C;
   color: var(--fc7);
   font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
   box-sizing: border-box;
-  margin-left: 30px;
+  /* margin-left: 30px; */
   border: 1px solid rgba(255, 255, 255, 0.08); 
   border-radius: 12px;                        
-  padding: 8px 0;                             
+  /* padding: 8px 0;                              */
   backdrop-filter: blur(2px);                
 }
 
 
 .top-row {
+  height: 39px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -724,6 +785,8 @@ input[type="text"] {
   cursor: pointer;
   border: none;
   transition: background 0.2s ease, color 0.2s ease;
+  border-radius: 8px;
+  /* font-weight: 400; */
 }
 
 /* Active tab */
@@ -742,7 +805,7 @@ input[type="text"] {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
@@ -757,19 +820,15 @@ input[type="text"] {
 
   /* 2) Filter row + presets area */
   .filter-area {
-    margin-top:8px;
-    padding:12px;
+    margin-top:9px;
     border-radius:10px;
-    border:1px solid rgba(255,255,255,0.02);
-    background: rgba(255,255,255,0.01);
     box-sizing:border-box;
   }
 
   .filters {
+    margin-left: 7px;
     display:flex;
-    gap:10px;
     align-items:center;
-    margin-bottom:12px;
   }
 
   /* "ALL" small box: 29 x 22, radius 8, bg --fc8 */
@@ -782,27 +841,29 @@ input[type="text"] {
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    font-size:12px;
+    font-size:11px;
     cursor:pointer;
     border: none;
   }
 
   /* "Favorites" pill: 62 x 22 */
   .filter-fav {
-    width:62px;
+     width:62px;
     height:22px;
-    border-radius:12px;
-    background: rgba(255,255,255,0.02);
+    font-size:11px;
+    background: #2C2C2C;
     color: var(--fc7);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    cursor:pointer;
-    border: 1px solid rgba(255,255,255,0.02);
-    padding:0 8px;
+    border: none;
+    cursor: pointer;
   }
-
+/* #btnFav{
+  width:62px;
+    height:22px;
+    font-size:11px;
+    background: #2C2C2C;
+    color: var(--fc7);
+    border: none;
+} */
   .filter-fav.active, .filter-all.active {
     box-shadow: 0 0 0 3px rgba(38,91,209,0.06);
     border-color: rgba(38,91,209,0.18);
@@ -810,8 +871,8 @@ input[type="text"] {
 
   /* banner row */
   .banners {
+    margin-top: 12px;
     display:flex;
-    gap:4px;
     align-items:center;
     flex-wrap:wrap;
   }
@@ -890,8 +951,8 @@ input[type="text"] {
 
   /* label under banner */
   .banner-label {
-    margin-top:8px;
-    font-size:12px;
+    margin-top:4px;
+    font-size:11px;
     color:var(--fc6);
     text-align:center;
   }
@@ -921,10 +982,10 @@ input[type="text"] {
 
   /* 3) Arrow area (centered below) */
 .arrow-wrap {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  margin-left: 560px;
+  margin-top: 185px;
+ 
 }
 
 .arrow {
@@ -934,23 +995,22 @@ input[type="text"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.02);
+  /* background: rgba(255, 255, 255, 0.02); */
+  /* border: 1px solid rgba(255, 255, 255, 0.02); */
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
-.arrow:hover {
+/* .arrow:hover {
   background: rgba(255, 255, 255, 0.06);
-}
+} */
 
 .arrow-icon {
   position: fixed;
-  width: 11px;
-  height: 6px;
+  width: 12px;
+  height: 7px;
   transition: transform 0.2s ease;
-  margin-bottom: 19px;
-  margin-right: 410px;
+  font-weight: 500;
 }
 
 /* Optional: rotate the arrow when expanded */
@@ -966,8 +1026,12 @@ input[type="text"] {
   align-items: flex-start;     
   justify-content: center;    
   padding-top: 26px;            
-  background: #383838;
+  /* background: #383838; */
+  backdrop-filter: blur(2px);
   z-index: 1000;
+    display: flex;
+  align-items: center;     
+  justify-content: center; 
 }
 .rename-overlay[hidden]{ display:none !important; }
 
@@ -1037,11 +1101,14 @@ input[type="text"] {
 </style>
 </head>
 <body>
- <div class="container">
+<div class="container">
 
     <!-- Left Panel -->
     <div class="left-pannel">
       <div class="heading" role="heading" aria-level="2" aria-label="Unit Conversion heading">
+        <span class="left-icon">
+          <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/left_chevron_okmc27.svg" alt = "Left Icon" width="14" height="10"/>
+        </span>
         <div class="whitebox" aria-hidden="true"></div>
         <p>Unit Conversion</p>
         <span class="info-icon" title="More info" aria-hidden="false">
@@ -1056,7 +1123,7 @@ input[type="text"] {
           <!-- Unit -->
           <label class="cs-label">Unit
             <div class="custom-select" data-name="unit" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-owns="unit-options" aria-label="Unit">
-              <button type="button" class="cs-trigger" aria-labelledby="unit-selected" title="Open unit list">
+              <button type="button" class="cs-trigger" aria-labelledby="unit-selected" title="Open unit list" id="unit-selected-btn">
                 <span id="unit-selected" class="cs-value">MM</span>
                 <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/down_chevron_bwmgi4.svg" alt="" class="cs-caret" aria-hidden="true" />
               </button>
@@ -1080,9 +1147,9 @@ input[type="text"] {
           <!-- DPI -->
           <label class="cs-label">DPI
             <div class="custom-select" data-name="dpi" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-owns="dpi-options" aria-label="DPI">
-              <button type="button" class="cs-trigger" aria-labelledby="dpi-selected" title="Open DPI list">
+              <button type="button" class="cs-trigger" aria-labelledby="dpi-selected" title="Open DPI list" id="dpi-selected-btn">
                 <span id="dpi-selected" class="cs-value">72 DPI</span>
-                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/down_chevron_bwmgi4.svg" alt="" class="cs-caret" aria-hidden="true" />
+                <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420875/down_chevron_bwmgi4.svg" alt="" class="cs-caret" aria-hidden="true" id="downarrow"/>
               </button>
               <ul id="dpi-options" class="cs-options" role="listbox" aria-hidden="true">
                 <li role="option" data-value="72" aria-selected="true">72 DPI</li>
@@ -1098,7 +1165,7 @@ input[type="text"] {
           </label>
 
           <!-- Add Bleed -->
-          <label style="margin-left:18px; display:flex; align-items:center;">
+          <label style="margin-left:41px; display:flex; align-items:center;">
             <img src="Bleed icon.svg" alt="Bleed Icon" width="8" height="8">
             <span style="margin-left:-2px;color:var(--muted);font-size:var(--fs-xs);">Add Bleed</span>
             <button class="check-12" aria-pressed="true" aria-label="Toggle check"></button>
@@ -1269,17 +1336,19 @@ input[type="text"] {
           </div>
 
         </div>
+        
       </div>
-
-      <!-- 3) Arrow below -->
-      <div class="arrow-wrap">
+       
+      
+     </div>
+     <!-- 3) Arrow below -->
+     <div class="arrow-wrap">
         <div class="arrow" title="Expand / collapse" aria-expanded="false">
           <img src="https://res.cloudinary.com/dvufcaqt1/image/upload/v1760420876/upward_chevron_kr8sr9.svg" alt="Arrow Icon" class="arrow-icon">
         </div>
-      </div>
-
-    </div>
-    <div id="renameOverlay" class="rename-overlay" hidden>
+       </div>
+    
+        <div id="renameOverlay" class="rename-overlay" hidden>
             <div class="rename-modal" role="dialog" aria-modal="true" aria-labelledby="renameTitle">
                 <div id="renameTitle" class="rename-title">Name your Preset</div>
 
@@ -1289,7 +1358,7 @@ input[type="text"] {
                 </div>
             </div>
         </div>
-  </div>
+       
 <script>
 // bleed tick icon
   document.addEventListener('click', e => {
